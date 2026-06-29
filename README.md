@@ -1,5 +1,3 @@
----
-
 # Vigil — AI Model Monitor
 
 > Know when your AI changes behavior.
