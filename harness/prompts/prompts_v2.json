@@ -1,0 +1,881 @@
+{
+    "version": "v2",
+    "created_date": "2026-06-23",
+    "prompts": [
+        {
+            "id": "fact_001",
+            "category": "hallucination",
+            "prompt": "What is the capital of France? Answer with only the city name.",
+            "expected": "Paris",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_002",
+            "category": "hallucination",
+            "prompt": "What is 7 multiplied by 8? Answer with only the number.",
+            "expected": "56",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_003",
+            "category": "hallucination",
+            "prompt": "What planet is closest to the Sun? Answer with only the planet name.",
+            "expected": "Mercury",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_004",
+            "category": "hallucination",
+            "prompt": "What is the chemical symbol for gold? Answer with only the symbol.",
+            "expected": "Au",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_005",
+            "category": "hallucination",
+            "prompt": "How many sides does a hexagon have? Answer with only the number.",
+            "expected": "6",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fmt_001",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"name\", \"age\", and \"city\" describing a fictional person. Return only the JSON, no other text.",
+            "required_keys": [
+                "name",
+                "age",
+                "city"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_002",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"title\", \"author\", and \"year\" describing a fictional book. Return only the JSON, no other text.",
+            "required_keys": [
+                "title",
+                "author",
+                "year"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_003",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"country\", \"capital\", and \"population_in_millions\" (as an integer) for any real country. Return only the JSON object, no other text.",
+            "required_keys": [
+                "country",
+                "capital",
+                "population_in_millions"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_004",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"product\", \"price\", and \"currency\" for a fictional product. Return only the JSON, no other text.",
+            "required_keys": [
+                "product",
+                "price",
+                "currency"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_005",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"language\", \"paradigm\", and \"year_created\" for any programming language. Return only the JSON, no other text.",
+            "required_keys": [
+                "language",
+                "paradigm",
+                "year_created"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_001",
+            "category": "instruction_following",
+            "prompt": "List exactly 3 colors. One per line, nothing else.",
+            "expected_count": 3,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_002",
+            "category": "instruction_following",
+            "prompt": "List exactly 5 fruits. One per line, nothing else.",
+            "expected_count": 5,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_003",
+            "category": "instruction_following",
+            "prompt": "List exactly 4 planets in our solar system. One per line, nothing else.",
+            "expected_count": 4,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_004",
+            "category": "instruction_following",
+            "prompt": "List exactly 7 days of the week. One per line, nothing else.",
+            "expected_count": 7,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_005",
+            "category": "instruction_following",
+            "prompt": "List exactly 2 oceans. One per line, nothing else.",
+            "expected_count": 2,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "verb_001",
+            "category": "verbosity",
+            "prompt": "Explain what gravity is.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_002",
+            "category": "verbosity",
+            "prompt": "Describe the water cycle.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_003",
+            "category": "verbosity",
+            "prompt": "Explain how a computer processor works.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_004",
+            "category": "verbosity",
+            "prompt": "Describe the process of photosynthesis.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_005",
+            "category": "verbosity",
+            "prompt": "Explain what machine learning is and how it differs from traditional programming.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "fact_006",
+            "category": "hallucination",
+            "prompt": "What is the capital of Italy? Answer with only the city name.",
+            "expected": "rome",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_007",
+            "category": "hallucination",
+            "prompt": "What is the longest river in the world? Answer with only the river name.",
+            "expected": "nile",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_008",
+            "category": "hallucination",
+            "prompt": "What is the highest mountain in the world? Answer with only the mountain name.",
+            "expected": "everest",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_009",
+            "category": "hallucination",
+            "prompt": "What is the capital of Japan? Answer with only the city name.",
+            "expected": "tokyo",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_010",
+            "category": "hallucination",
+            "prompt": "What is the capital of Japan? Answer with only the city name.",
+            "expected": "tokyo",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_011",
+            "category": "hallucination",
+            "prompt": "What is the chemical symbol for Oxygen? Answer with only the symbol.",
+            "expected": "o",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_012",
+            "category": "hallucination",
+            "prompt": "Which planet is known as the Red Planet? Answer with only the planet name.",
+            "expected": "mars",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_013",
+            "category": "hallucination",
+            "prompt": "What is the SI unit of force? Answer with only the unit name.",
+            "expected": "newton (n)",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_014",
+            "category": "hallucination",
+            "prompt": "What is the chemical symbol for Iron? Answer with only the symbol.",
+            "expected": "fe",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_015",
+            "category": "hallucination",
+            "prompt": "At what temperature (in Celsius) does water boil? Answer with only the number.",
+            "expected": "100",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_016",
+            "category": "hallucination",
+            "prompt": "What is 12 multiplied by 12? Answer with only the number.",
+            "expected": "144",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_017",
+            "category": "hallucination",
+            "prompt": "What is the square root of 64? Answer with only the number.",
+            "expected": "8",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_018",
+            "category": "hallucination",
+            "prompt": "What is 15 plus 27? Answer with only the number.",
+            "expected": "42",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_019",
+            "category": "hallucination",
+            "prompt": "What is 100 divided by 4? Answer with only the number.",
+            "expected": "25",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_020",
+            "category": "hallucination",
+            "prompt": "What is 5 squared? Answer with only the number.",
+            "expected": "25",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_021",
+            "category": "hallucination",
+            "prompt": "What is the chemical symbol for Helium? Answer with only the symbol.",
+            "expected": "he",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_022",
+            "category": "hallucination",
+            "prompt": "Who painted the Sistine Chapel ceiling? Answer with only the last name.",
+            "expected": "michelangelo",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_023",
+            "category": "hallucination",
+            "prompt": "In what year did World War II end? Answer with only the year.",
+            "expected": "1945",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_024",
+            "category": "hallucination",
+            "prompt": "Who invented the lightbulb? Answer with only the last name.",
+            "expected": "edison",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fact_025",
+            "category": "hallucination",
+            "prompt": "Who was the first president of the United States? Answer with only the last name.",
+            "expected": "washington",
+            "scorer": "exact_match",
+            "baseline_type": "static_ground_truth"
+        },
+        {
+            "id": "fmt_006",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"name\", \"email\", and \"role\" describing a fictional person. Return only the JSON, no other text.",
+            "required_keys": [
+                "name",
+                "email",
+                "role"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_007",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"first_name\", \"last_name\", and \"phone\" describing a fictional contact. Return only the JSON.",
+            "required_keys": [
+                "first_name",
+                "last_name",
+                "phone"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_008",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"username\", \"password\", and \"last_login\" for a user. Return only the JSON.",
+            "required_keys": [
+                "username",
+                "password",
+                "last_login"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_009",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"employee_id\", \"department\", and \"salary\" for a worker. Return only the JSON.",
+            "required_keys": [
+                "employee_id",
+                "department",
+                "salary"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_010",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"customer_id\", \"status\", and \"lifetime_value\". Return only the JSON.",
+            "required_keys": [
+                "customer_id",
+                "status",
+                "lifetime_value"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_011",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"product_name\", \"price\", and \"category\" describing a fictional product. Return only the JSON.",
+            "required_keys": [
+                "product_name",
+                "price",
+                "category"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_012",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"sku\", \"stock_count\", and \"warehouse\" for an inventory item. Return only the JSON.",
+            "required_keys": [
+                "sku",
+                "stock_count",
+                "warehouse"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_013",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"brand\", \"model\", and \"color\" for a car. Return only the JSON.",
+            "required_keys": [
+                "brand",
+                "model",
+                "color"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_014",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"item_id\", \"weight\", and \"dimensions\" for a package. Return only the JSON.",
+            "required_keys": [
+                "item_id",
+                "weight",
+                "dimensions"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_015",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"software\", \"version\", and \"license\" for a program. Return only the JSON.",
+            "required_keys": [
+                "software",
+                "version",
+                "license"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_016",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"event_name\", \"date\", and \"location\" for a fictional event. Return only the JSON.",
+            "required_keys": [
+                "event_name",
+                "date",
+                "location"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_017",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"conference\", \"attendees\", and \"topic\" for a tech event. Return only the JSON.",
+            "required_keys": [
+                "conference",
+                "attendees",
+                "topic"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_018",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"concert_name\", \"band\", and \"venue\" for a music concert. Return only the JSON.",
+            "required_keys": [
+                "concert_name",
+                "band",
+                "venue"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_019",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"flight_number\", \"departure\", and \"arrival\" for a flight. Return only the JSON.",
+            "required_keys": [
+                "flight_number",
+                "departure",
+                "arrival"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_020",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"match_id\", \"home_team\", and \"away_team\" for a sports game. Return only the JSON.",
+            "required_keys": [
+                "match_id",
+                "home_team",
+                "away_team"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_021",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"endpoint\", \"method\", and \"status_code\" for an API request. Return only the JSON.",
+            "required_keys": [
+                "endpoint",
+                "method",
+                "status_code"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_022",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"ip_address\", \"mac_address\", and \"hostname\" for a server. Return only the JSON.",
+            "required_keys": [
+                "ip_address",
+                "mac_address",
+                "hostname"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_023",
+            "category": "format_adherence",
+            "prompt": "Output a valid JSON object with keys \"database\", \"table\", and \"row_count\" containing dummy data. Do not write a python script. Output only the JSON object.",
+            "required_keys": [
+                "database",
+                "table",
+                "row_count"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_024",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"error_code\", \"message\", and \"timestamp\" for a log entry. Return only the JSON.",
+            "required_keys": [
+                "error_code",
+                "message",
+                "timestamp"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "fmt_025",
+            "category": "format_adherence",
+            "prompt": "Return a JSON object with keys \"service\", \"uptime\", and \"latency\" for a microservice. Return only the JSON.",
+            "required_keys": [
+                "service",
+                "uptime",
+                "latency"
+            ],
+            "scorer": "json_valid",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_006",
+            "category": "instruction_following",
+            "prompt": "List exactly 5 programming languages. One per line, nothing else.",
+            "expected_count": 5,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_007",
+            "category": "instruction_following",
+            "prompt": "List exactly 3 web frameworks. One per line, nothing else.",
+            "expected_count": 3,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_008",
+            "category": "instruction_following",
+            "prompt": "List exactly 4 types of databases. One per line, nothing else.",
+            "expected_count": 4,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_009",
+            "category": "instruction_following",
+            "prompt": "List exactly 2 operating systems. One per line, nothing else.",
+            "expected_count": 2,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_010",
+            "category": "instruction_following",
+            "prompt": "List exactly 6 design patterns. One per line, nothing else.",
+            "expected_count": 6,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_011",
+            "category": "instruction_following",
+            "prompt": "List exactly 3 fields of physics. One per line, nothing else.",
+            "expected_count": 3,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_012",
+            "category": "instruction_following",
+            "prompt": "List exactly 4 chemical elements. One per line, nothing else.",
+            "expected_count": 4,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_013",
+            "category": "instruction_following",
+            "prompt": "List exactly 5 human organs. One per line, nothing else.",
+            "expected_count": 5,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_014",
+            "category": "instruction_following",
+            "prompt": "List exactly 2 types of energy. One per line, nothing else.",
+            "expected_count": 2,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_015",
+            "category": "instruction_following",
+            "prompt": "List exactly 7 bones in the human body. One per line, nothing else.",
+            "expected_count": 7,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_016",
+            "category": "instruction_following",
+            "prompt": "List exactly 4 items you find in a kitchen. One per line, nothing else.",
+            "expected_count": 4,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_017",
+            "category": "instruction_following",
+            "prompt": "List exactly 5 types of furniture. One per line, nothing else.",
+            "expected_count": 5,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_018",
+            "category": "instruction_following",
+            "prompt": "List exactly 3 modes of transportation. One per line, nothing else.",
+            "expected_count": 3,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_019",
+            "category": "instruction_following",
+            "prompt": "List exactly 6 office supplies. One per line, nothing else.",
+            "expected_count": 6,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_020",
+            "category": "instruction_following",
+            "prompt": "List exactly 8 items of clothing. One per line, nothing else.",
+            "expected_count": 8,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_021",
+            "category": "instruction_following",
+            "prompt": "List exactly 3 human emotions. One per line, nothing else.",
+            "expected_count": 3,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_022",
+            "category": "instruction_following",
+            "prompt": "List exactly 5 personality traits. One per line, nothing else.",
+            "expected_count": 5,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_023",
+            "category": "instruction_following",
+            "prompt": "List exactly 4 forms of art. One per line, nothing else.",
+            "expected_count": 4,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_024",
+            "category": "instruction_following",
+            "prompt": "List exactly 2 philosophical concepts. One per line, nothing else.",
+            "expected_count": 2,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "inst_025",
+            "category": "instruction_following",
+            "prompt": "List exactly 7 virtues. One per line, nothing else.",
+            "expected_count": 7,
+            "scorer": "exact_count",
+            "baseline_type": "deterministic"
+        },
+        {
+            "id": "verb_006",
+            "category": "verbosity",
+            "prompt": "Explain how a combustion engine works.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_007",
+            "category": "verbosity",
+            "prompt": "Explain how the internet routes packets.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_008",
+            "category": "verbosity",
+            "prompt": "Explain the concept of public key cryptography.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_009",
+            "category": "verbosity",
+            "prompt": "Explain how a refrigerator keeps things cold.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_010",
+            "category": "verbosity",
+            "prompt": "Explain how airplanes generate lift.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_011",
+            "category": "verbosity",
+            "prompt": "What is quantum entanglement?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_012",
+            "category": "verbosity",
+            "prompt": "What is inflation in economics?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_013",
+            "category": "verbosity",
+            "prompt": "What is the theory of relativity?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_014",
+            "category": "verbosity",
+            "prompt": "What is artificial intelligence?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_015",
+            "category": "verbosity",
+            "prompt": "What is a black hole?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_016",
+            "category": "verbosity",
+            "prompt": "What is the difference between an asteroid and a comet?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_017",
+            "category": "verbosity",
+            "prompt": "What is the difference between mitosis and meiosis?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_018",
+            "category": "verbosity",
+            "prompt": "What is the difference between weather and climate?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_019",
+            "category": "verbosity",
+            "prompt": "What is the difference between a virus and a bacteria?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_020",
+            "category": "verbosity",
+            "prompt": "What is the difference between RAM and ROM?",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_021",
+            "category": "verbosity",
+            "prompt": "Describe the process of making glass.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_022",
+            "category": "verbosity",
+            "prompt": "Describe the lifecycle of a butterfly.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_023",
+            "category": "verbosity",
+            "prompt": "Describe the structure of a DNA molecule.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_024",
+            "category": "verbosity",
+            "prompt": "Describe the layers of the Earth.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        },
+        {
+            "id": "verb_025",
+            "category": "verbosity",
+            "prompt": "Describe the history of the printing press.",
+            "scorer": "token_count",
+            "baseline_type": "rolling_median"
+        }
+    ]
+}

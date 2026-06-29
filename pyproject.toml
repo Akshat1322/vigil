@@ -1,0 +1,18 @@
+[project]
+name = "llm-drift-monitor"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "apscheduler>=3.10.0",
+    "fastapi",
+    "httpx",
+    "litellm",
+    "numpy",
+    "python-dotenv",
+    "scipy",
+    "sentence-transformers",
+    "sqlmodel",
+    "uvicorn",
+]

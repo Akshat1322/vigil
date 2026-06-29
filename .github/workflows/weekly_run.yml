@@ -1,0 +1,42 @@
+name: Weekly Drift Monitor Run
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  run-drift-monitor:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          
+      - name: Install dependencies
+        run: uv sync
+        
+      - name: Run drift monitor suite
+        run: |
+          # Note: We omit --model to default to ollama/llama3.
+          # Since this runs on GitHub's servers without an Ollama instance,
+          # it will gracefully fail and exit 0. Phase 6 will update this 
+          # to use Gemini Flash instead.
+          uv run python -m harness.runner
+          
+      - name: Upload SQLite DB
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-monitor-db
+          path: data/drift_monitor.db
+          retention-days: 90

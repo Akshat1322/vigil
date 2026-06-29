@@ -1,0 +1,59 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database
+# NOTE: data/drift_monitor.db is intentionally 
+# tracked in git for deployment persistence.
+# Do NOT add data/*.db here.
+
+# Logs
+*.log
+logs/
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/.vercel/
+frontend/out/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/settings.json
+.idea/
+*.iml
+
+# Temporary agent files
+scratch/
+task-*.log
+simulate_*.py
+simulate_*.ps1
+corrupt*.py
+restore_*.py
+fetch_data.py
+test_badge.py
+walkthrough.md
+query_results.py
+verify*.py
+run_all.py
+
+# Sentence transformers cache
+.cache/
+sentence_transformers_cache/

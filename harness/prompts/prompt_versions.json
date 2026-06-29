@@ -1,0 +1,15 @@
+{
+  "current": "v2",
+  "history": [
+    {
+      "version": "v1",
+      "date": "2026-06-21",
+      "changes": "initial suite — 20 prompts, 5 per category"
+    },
+    {
+      "version": "v2",
+      "date": "2026-06-23",
+      "changes": "expanded to 100 prompts, 25 per category"
+    }
+  ]
+}

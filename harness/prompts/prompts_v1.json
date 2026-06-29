@@ -1,0 +1,161 @@
+{
+  "version": "v1",
+  "created_date": "2026-06-21",
+  "prompts": [
+    {
+      "id": "fact_001",
+      "category": "hallucination",
+      "prompt": "What is the capital of France? Answer with only the city name.",
+      "expected": "Paris",
+      "scorer": "exact_match",
+      "baseline_type": "static_ground_truth"
+    },
+    {
+      "id": "fact_002",
+      "category": "hallucination",
+      "prompt": "What is 7 multiplied by 8? Answer with only the number.",
+      "expected": "56",
+      "scorer": "exact_match",
+      "baseline_type": "static_ground_truth"
+    },
+    {
+      "id": "fact_003",
+      "category": "hallucination",
+      "prompt": "What planet is closest to the Sun? Answer with only the planet name.",
+      "expected": "Mercury",
+      "scorer": "exact_match",
+      "baseline_type": "static_ground_truth"
+    },
+    {
+      "id": "fact_004",
+      "category": "hallucination",
+      "prompt": "What is the chemical symbol for gold? Answer with only the symbol.",
+      "expected": "Au",
+      "scorer": "exact_match",
+      "baseline_type": "static_ground_truth"
+    },
+    {
+      "id": "fact_005",
+      "category": "hallucination",
+      "prompt": "How many sides does a hexagon have? Answer with only the number.",
+      "expected": "6",
+      "scorer": "exact_match",
+      "baseline_type": "static_ground_truth"
+    },
+    {
+      "id": "fmt_001",
+      "category": "format_adherence",
+      "prompt": "Return a JSON object with keys \"name\", \"age\", and \"city\" describing a fictional person. Return only the JSON, no other text.",
+      "required_keys": ["name", "age", "city"],
+      "scorer": "json_valid",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "fmt_002",
+      "category": "format_adherence",
+      "prompt": "Return a JSON object with keys \"title\", \"author\", and \"year\" describing a fictional book. Return only the JSON, no other text.",
+      "required_keys": ["title", "author", "year"],
+      "scorer": "json_valid",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "fmt_003",
+      "category": "format_adherence",
+      "prompt": "Return a JSON object with keys \"country\", \"capital\", and \"population\" for any real country. Return only the JSON, no other text.",
+      "required_keys": ["country", "capital", "population"],
+      "scorer": "json_valid",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "fmt_004",
+      "category": "format_adherence",
+      "prompt": "Return a JSON object with keys \"product\", \"price\", and \"currency\" for a fictional product. Return only the JSON, no other text.",
+      "required_keys": ["product", "price", "currency"],
+      "scorer": "json_valid",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "fmt_005",
+      "category": "format_adherence",
+      "prompt": "Return a JSON object with keys \"language\", \"paradigm\", and \"year_created\" for any programming language. Return only the JSON, no other text.",
+      "required_keys": ["language", "paradigm", "year_created"],
+      "scorer": "json_valid",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "inst_001",
+      "category": "instruction_following",
+      "prompt": "List exactly 3 colors. One per line, nothing else.",
+      "expected_count": 3,
+      "scorer": "exact_count",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "inst_002",
+      "category": "instruction_following",
+      "prompt": "List exactly 5 fruits. One per line, nothing else.",
+      "expected_count": 5,
+      "scorer": "exact_count",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "inst_003",
+      "category": "instruction_following",
+      "prompt": "List exactly 4 planets in our solar system. One per line, nothing else.",
+      "expected_count": 4,
+      "scorer": "exact_count",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "inst_004",
+      "category": "instruction_following",
+      "prompt": "List exactly 7 days of the week. One per line, nothing else.",
+      "expected_count": 7,
+      "scorer": "exact_count",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "inst_005",
+      "category": "instruction_following",
+      "prompt": "List exactly 2 oceans. One per line, nothing else.",
+      "expected_count": 2,
+      "scorer": "exact_count",
+      "baseline_type": "deterministic"
+    },
+    {
+      "id": "verb_001",
+      "category": "verbosity",
+      "prompt": "Explain what gravity is.",
+      "scorer": "token_count",
+      "baseline_type": "rolling_median"
+    },
+    {
+      "id": "verb_002",
+      "category": "verbosity",
+      "prompt": "Describe the water cycle.",
+      "scorer": "token_count",
+      "baseline_type": "rolling_median"
+    },
+    {
+      "id": "verb_003",
+      "category": "verbosity",
+      "prompt": "Explain how a computer processor works.",
+      "scorer": "token_count",
+      "baseline_type": "rolling_median"
+    },
+    {
+      "id": "verb_004",
+      "category": "verbosity",
+      "prompt": "Describe the process of photosynthesis.",
+      "scorer": "token_count",
+      "baseline_type": "rolling_median"
+    },
+    {
+      "id": "verb_005",
+      "category": "verbosity",
+      "prompt": "Explain what machine learning is and how it differs from traditional programming.",
+      "scorer": "token_count",
+      "baseline_type": "rolling_median"
+    }
+  ]
+}
