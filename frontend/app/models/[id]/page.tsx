@@ -5,6 +5,24 @@ import { CATEGORY_LABELS } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
 
+interface CategoryStatus {
+  category: string
+  stable_count: number
+  total_count: number
+  drift_detected: boolean
+}
+
+interface ModelSummary {
+  model: string
+  bsi: number
+  status: string
+  last_run_timestamp: string
+  regression_rate: number
+  drifted_count: number
+  total_prompts: number
+  categories: CategoryStatus[]
+}
+
 function timeAgo(dateString: string) {
   const date = new Date(dateString);
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
@@ -36,7 +54,7 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
 export default async function ModelDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const decodedId = decodeURIComponent(id);
-  const model = await fetchModel(decodedId);
+  const model: ModelSummary = await fetchModel(decodedId);
   const history = await fetchModelHistory(decodedId);
 
   const parts = model.model.split('/');
@@ -100,7 +118,7 @@ export default async function ModelDetailPage({ params }: { params: Promise<{ id
         Behavior breakdown
       </h2>
       <div className="mb-3">
-        {model.categories.map((cat) => {
+        {model.categories.map((cat: CategoryStatus) => {
           const friendlyName = CATEGORY_LABELS[cat.category] || cat.category;
           const description = CATEGORY_DESCRIPTIONS[cat.category] || "";
           const isStable = !cat.drift_detected;

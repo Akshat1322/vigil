@@ -5,6 +5,30 @@ import { Monitor, Activity, Clock } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
+interface CategoryStatus {
+  category: string
+  stable_count: number
+  total_count: number
+  drift_detected: boolean
+}
+
+interface ModelSummary {
+  model: string
+  bsi: number
+  status: string
+  last_run_timestamp: string
+  regression_rate: number
+  drifted_count: number
+  total_prompts: number
+  categories: CategoryStatus[]
+}
+
+interface BsiHistoryPoint {
+  run_id: string
+  timestamp: string
+  bsi: number
+}
+
 function timeAgo(dateString: string) {
   const date = new Date(dateString);
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
@@ -30,11 +54,11 @@ export default async function HomePage() {
   const models = await fetchModels();
   
   const histories = await Promise.all(
-    models.map((m: any) => fetchModelHistory(m.model).catch(() => []))
+    models.map((m: ModelSummary) => fetchModelHistory(m.model).catch(() => []))
   );
 
   const totalModels = models.length;
-  const totalPrompts = models.reduce((acc: number, m: any) => acc + m.total_prompts, 0);
+  const totalPrompts = models.reduce((acc: number, m: ModelSummary) => acc + m.total_prompts, 0);
 
   return (
     <div className="max-w-7xl mx-auto pb-12">
@@ -68,7 +92,7 @@ export default async function HomePage() {
 
       {/* Model cards grid */}
       <div className="mt-8 flex flex-col gap-4 px-6 max-w-5xl mx-auto w-full">
-        {models.map((model, idx) => {
+        {models.map((model: ModelSummary, idx: number) => {
           const history = histories[idx];
           
           const parts = model.model.split('/');

@@ -4,13 +4,37 @@ import { CATEGORY_LABELS } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
 
+interface DriftDetail {
+  prompt_id: string;
+  category: string;
+  z_score: number;
+  cohens_d: number | null;
+  p_value: number | null;
+  drift_detected: boolean;
+  direction: string;
+  magnitude: string;
+  current_mean: number;
+  baseline_mean: number;
+  semantic_similarity: number | null;
+}
+
+interface RunReport {
+  model: string;
+  run_timestamp: string;
+  bsi: number;
+  regression_rate: number;
+  drifted_count: number;
+  total_prompts: number;
+  drift_details: DriftDetail[];
+}
+
 export default async function TechnicalReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const decodedId = decodeURIComponent(id);
-  const report = await fetchModelReport(decodedId);
+  const report: RunReport = await fetchModelReport(decodedId);
 
   // Sort by category, then by prompt_id
-  const sortedDetails = [...report.drift_details].sort((a, b) => {
+  const sortedDetails = [...report.drift_details].sort((a: DriftDetail, b: DriftDetail) => {
     if (a.category < b.category) return -1;
     if (a.category > b.category) return 1;
     if (a.prompt_id < b.prompt_id) return -1;
@@ -71,7 +95,7 @@ export default async function TechnicalReportPage({ params }: { params: Promise<
               </tr>
             </thead>
             <tbody className="divide-y divide-[#1e2433]">
-              {sortedDetails.map((detail, idx) => {
+              {sortedDetails.map((detail: DriftDetail, idx: number) => {
                 let directionColor = "text-[#64748b]";
                 if (detail.direction === "increased") directionColor = "text-[#34d399]";
                 else if (detail.direction === "decreased") directionColor = "text-[#f59e0b]";
