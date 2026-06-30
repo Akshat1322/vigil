@@ -34,7 +34,7 @@ export default async function HomePage() {
   );
 
   const totalModels = models.length;
-  const totalPrompts = models.reduce((acc, m) => acc + m.total_prompts, 0);
+  const totalPrompts = models.reduce((acc: number, m: any) => acc + m.total_prompts, 0);
 
   return (
     <div className="max-w-7xl mx-auto pb-12">
