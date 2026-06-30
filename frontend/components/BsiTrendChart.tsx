@@ -60,8 +60,8 @@ export default function BsiTrendChart({ history, lineColor = "#34d399" }: Props)
             contentStyle={{ backgroundColor: '#161b27', borderColor: '#1e2433', color: '#f1f5f9' }}
             itemStyle={{ color: lineColor }}
             labelFormatter={(label) => `Run at: ${label}`}
-            formatter={(value: number, name: string, props: any) => [
-              `${value.toFixed(1)} (Run: ${props.payload.run_id.substring(0,8)})`, 
+            formatter={(value, name, props) => [
+              `${Number(value).toFixed(1)} (Run: ${props?.payload?.run_id?.substring(0,8) ?? ''})`,
               'BSI Score'
             ]}
           />
