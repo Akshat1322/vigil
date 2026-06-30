@@ -103,7 +103,7 @@ def detect_drift_single_prompt(
     semantic_sim = None
     if current_text is not None and baseline_text is not None and category == "verbosity":
         semantic_sim = cosine_similarity(current_text, baseline_text)
-        if semantic_sim < 0.75:
+        if semantic_sim is not None and semantic_sim < 0.75:
             if drift_detected:
                 magnitude = "large"
             else:

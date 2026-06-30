@@ -23,3 +23,5 @@ services:
         value: /tmp/st_cache
       - key: REVALIDATE_SECRET
         value: vigil-revalidate-2026
+      - key: ENABLE_SEMANTIC_SCORING
+        value: "false"
