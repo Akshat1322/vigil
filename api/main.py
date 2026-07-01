@@ -24,5 +24,6 @@ app.include_router(models.router, prefix="/api/models", tags=["models"])
 app.include_router(models.cache_router, prefix="/api/cache", tags=["cache"])
 
 @app.get("/")
+@app.head("/")
 def read_root():
     return {"status": "ok", "service": "llm-drift-monitor"}
