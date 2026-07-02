@@ -29,7 +29,7 @@ jobs:
         run: uv sync
         
       - name: Run drift monitor suite
-        run: uv run python -m harness.runner --model gemini/gemini-1.5-flash
+        run: uv run python -m harness.runner --model gemini/gemini-2.5-flash
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
