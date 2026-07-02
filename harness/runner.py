@@ -53,11 +53,21 @@ def run_single_prompt(prompt_config: dict, model: str, run_id: str) -> ScoreResu
     scorer_name = prompt_config["scorer"]
 
     start_time = time.time()
-    response = litellm.completion(
-        model=model,
-        messages=[{"role": "user", "content": prompt_text}],
-        temperature=0,
-    )
+    
+    max_retries = 10
+    for attempt in range(max_retries):
+        try:
+            response = litellm.completion(
+                model=model,
+                messages=[{"role": "user", "content": prompt_text}],
+                temperature=0,
+            )
+            break
+        except litellm.exceptions.RateLimitError as e:
+            if attempt == max_retries - 1:
+                raise
+            print(f"      [Rate limit hit, waiting 15s before retry {attempt+1}/{max_retries}...]")
+            time.sleep(15)
     latency = time.time() - start_time
 
     raw_output = response.choices[0].message.content or ""
