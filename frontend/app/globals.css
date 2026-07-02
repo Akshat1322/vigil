@@ -24,3 +24,133 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* -- Vigil Landing Grid -- */
+.grid-container {
+  --grid: 10rem;
+  --green: #34d399;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  perspective: 100rem;
+}
+
+.grid-container .plane {
+  --dir: 1;
+  width: 300%;
+  height: 150%;
+  min-height: 70rem;
+  position: absolute;
+  bottom: 0;
+  transform-style: preserve-3d;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotateX(85deg);
+}
+
+.grid-container .plane:last-child {
+  --dir: -1;
+  top: 0;
+  bottom: auto;
+  transform-origin: top center;
+  transform: translateX(-50%) rotateX(-85deg);
+}
+
+.grid-container .plane:last-child > *::after {
+  background-image: linear-gradient(
+    to top, 
+    rgba(0,0,0,1) var(--grid), 
+    rgba(0,0,0,0)
+  );
+}
+
+.grid-container .plane > * {
+  transform-style: preserve-3d;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.grid-container .plane > *::before,
+.grid-container .plane > *::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.grid-container .plane > *::before {
+  background-image: 
+    repeating-linear-gradient(
+      to left, 
+      var(--green), var(--green) 1px, 
+      transparent 1px, transparent var(--grid)
+    ), 
+    repeating-linear-gradient(
+      to bottom, 
+      var(--green), var(--green) 1px, 
+      transparent 1px, transparent var(--grid)
+    );
+  opacity: 0.4;
+  animation: grid-move 2s linear infinite forwards;
+}
+
+.grid-container .plane > *::after {
+  background-image: linear-gradient(
+    to bottom, 
+    rgba(0,0,0,1) var(--grid), 
+    rgba(0,0,0,0)
+  );
+  z-index: 1;
+  transform: translateZ(1px);
+}
+
+.grid-container .plane .glow {
+  filter: blur(0.8rem);
+  z-index: 1;
+  mix-blend-mode: plus-lighter;
+  opacity: 0.3;
+}
+
+@keyframes grid-move {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(calc(var(--grid) * var(--dir, 1))); }
+}
+
+/* Blinking cursor */
+.vigil-cursor::after {
+  content: '';
+  display: inline-block;
+  width: 0.15em;
+  height: 0.8em;
+  background-color: #34d399;
+  margin-left: 0.1em;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Fade out grid on scroll */
+.grid-fade {
+  -webkit-mask-image: linear-gradient(
+    to bottom, 
+    black 0%, 
+    black 50%, 
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom, 
+    black 0%, 
+    black 50%, 
+    transparent 100%
+  );
+}

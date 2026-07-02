@@ -26,9 +26,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+      </head>
       <body className="min-h-full flex flex-col bg-[#0f1117] text-[#f1f5f9] font-sans">
         <AutoRefresh intervalMs={15000} />
-        <header className="bg-[#161b27] border-b border-[#1e2433] h-16 w-full px-8">
+        <header 
+          className="h-16 w-full px-8 relative z-50"
+          style={{ 
+            background: 'rgba(0,0,0,0.8)', 
+            backdropFilter: 'blur(12px)',
+            borderBottom: '1px solid rgba(255,255,255,0.06)'
+          }}
+        >
           <div className="max-w-7xl mx-auto h-full">
             <div className="flex h-full items-center">
               <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
