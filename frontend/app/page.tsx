@@ -3,25 +3,24 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
+      
+      {/* Animated grid background (Fixed to cover whole page) */}
+      <div className="grid-container" aria-hidden="true">
+        <div className="plane">
+          <div className="grid"></div>
+          <div className="glow"></div>
+        </div>
+        <div className="plane">
+          <div className="grid"></div>
+          <div className="glow"></div>
+        </div>
+      </div>
+
       {/* SECTION 1 — HERO */}
       <section 
-        style={{ background: '#000', position: 'relative', 
-                 minHeight: '100vh', overflow: 'hidden' }}
+        style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}
         className="flex flex-col items-center justify-center"
       >
-        {/* Animated grid background */}
-        <div className="grid-container grid-fade" 
-             aria-hidden="true">
-          <div className="plane">
-            <div className="grid"></div>
-            <div className="glow"></div>
-          </div>
-          <div className="plane">
-            <div className="grid"></div>
-            <div className="glow"></div>
-          </div>
-        </div>
-
         {/* Content above the grid */}
         <div style={{ position: 'relative', zIndex: 10 }}
              className="text-center px-6 max-w-4xl mx-auto">
@@ -42,7 +41,7 @@ export default function Home() {
           {/* Main headline */}
           <h1 style={{
             fontFamily: "'Share Tech Mono', monospace",
-            color: '#ffffff',
+            color: '#f5f5f5',
             fontSize: 'clamp(2rem, 5vw, 4rem)',
             lineHeight: 1.2,
             fontWeight: 400,
@@ -128,8 +127,8 @@ export default function Home() {
       {/* SECTION 2 — PROBLEM */}
       <section 
         id="how-it-works"
-        style={{ background: '#ffffff' }}
-        className="py-24 px-6"
+        className="py-24 px-6 relative z-10"
+        style={{ background: 'transparent' }}
       >
         <div className="max-w-5xl mx-auto">
           
@@ -137,12 +136,12 @@ export default function Home() {
             <h2 style={{
               fontSize: '2rem',
               fontWeight: 700,
-              color: '#0f172a',
+              color: '#f5f5f5',
               marginBottom: '1rem'
             }}>
               The silent problem with LLM APIs
             </h2>
-            <p style={{ color: '#64748b', fontSize: '1.125rem' }}>
+            <p style={{ color: '#737373', fontSize: '1.125rem' }}>
               You didn't change anything. But something changed.
             </p>
           </div>
@@ -166,24 +165,19 @@ export default function Home() {
                 body: 'By the time support tickets arrive, the damage is done. You need to know first.'
               }
             ].map((card) => (
-              <div key={card.title} style={{
-                background: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '12px',
-                padding: '2rem'
-              }}>
+              <div key={card.title} className="card-grid-texture border border-[#1c1c1c] rounded-lg p-8">
                 <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>
                   {card.icon}
                 </div>
                 <h3 style={{
                   fontWeight: 600,
-                  color: '#0f172a',
+                  color: '#f5f5f5',
                   marginBottom: '0.75rem',
                   fontSize: '1.05rem'
                 }}>
                   {card.title}
                 </h3>
-                <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                <p style={{ color: '#737373', fontSize: '0.9rem', lineHeight: 1.6 }}>
                   {card.body}
                 </p>
               </div>
@@ -193,20 +187,20 @@ export default function Home() {
       </section>
 
       {/* SECTION 3 — HOW IT WORKS */}
-      <section style={{ background: '#f1f5f9' }} className="py-24 px-6">
-        <div className="max-w-2xl mx-auto">
+      <section id="features" className="py-24 px-6 relative z-10" style={{ background: 'transparent' }}>
+        <div className="max-w-2xl mx-auto card-grid-texture border border-[#1c1c1c] rounded-xl p-10 md:p-16">
           
           <h2 style={{
             fontSize: '2rem',
             fontWeight: 700,
-            color: '#0f172a',
+            color: '#f5f5f5',
             textAlign: 'center',
             marginBottom: '4rem'
           }}>
             How Vigil works
           </h2>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
             {[
               {
                 num: '01',
@@ -244,12 +238,12 @@ export default function Home() {
                 <div>
                   <h3 style={{
                     fontWeight: 600,
-                    color: '#0f172a',
+                    color: '#f5f5f5',
                     marginBottom: '0.5rem'
                   }}>
                     {step.title}
                   </h3>
-                  <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                  <p style={{ color: '#737373', fontSize: '0.9rem', lineHeight: 1.6 }}>
                     {step.body}
                   </p>
                 </div>
@@ -260,7 +254,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 4 — CTA + FOOTER */}
-      <section style={{ background: '#000' }} className="py-24 px-6 text-center">
+      <section className="py-24 px-6 text-center relative z-10" style={{ background: 'transparent' }}>
         
         <h2 style={{
           fontFamily: "'Share Tech Mono', monospace",
@@ -272,7 +266,7 @@ export default function Home() {
           See it live
         </h2>
         
-        <p style={{ color: '#6b7280', marginBottom: '2.5rem', fontSize: '1rem' }}>
+        <p style={{ color: '#737373', marginBottom: '2.5rem', fontSize: '1rem' }}>
           Real behavioral data from real models, updated every week.
         </p>
 
@@ -293,7 +287,7 @@ export default function Home() {
 
         <p style={{
           marginTop: '1.5rem',
-          color: '#374151',
+          color: '#404040',
           fontSize: '0.8rem',
           fontFamily: "'Share Tech Mono', monospace"
         }}>
@@ -304,7 +298,7 @@ export default function Home() {
         <div style={{
           marginTop: '5rem',
           paddingTop: '2rem',
-          borderTop: '1px solid #1f2937',
+          borderTop: '1px solid #1c1c1c',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -320,17 +314,19 @@ export default function Home() {
             }}>
               ✦ Vigil
             </div>
-            <div style={{ color: '#374151', fontSize: '0.75rem' }}>
+            <div style={{ color: '#404040', fontSize: '0.75rem' }}>
               © 2026 Vigil. Open source.
             </div>
           </div>
           <div style={{ display: 'flex', gap: '2rem' }}>
             <Link href="/dashboard" 
-                  style={{ color: '#6b7280', fontSize: '0.875rem', textDecoration: 'none' }}>
+                  style={{ color: '#737373', fontSize: '0.875rem', textDecoration: 'none' }}
+                  className="hover:text-[#f5f5f5] transition-colors">
               Dashboard
             </Link>
             <a href="https://github.com/Akshat1322/vigil" 
-               style={{ color: '#6b7280', fontSize: '0.875rem', textDecoration: 'none' }}
+               style={{ color: '#737373', fontSize: '0.875rem', textDecoration: 'none' }}
+               className="hover:text-[#f5f5f5] transition-colors"
                target="_blank">
               GitHub
             </a>
