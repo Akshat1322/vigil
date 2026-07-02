@@ -53,7 +53,6 @@ export default function RootLayout({
           <nav className="flex gap-6 items-center">
             <a href="/#features" className="text-sm text-[#737373] hover:text-[#f5f5f5] transition-colors">Features</a>
             <a href="/#how-it-works" className="text-sm text-[#737373] hover:text-[#f5f5f5] transition-colors">How it Works</a>
-            <Link href="/dashboard" className="text-sm text-[#f5f5f5] transition-colors">Dashboard</Link>
           </nav>
 
           {/* RIGHT - GitHub */}
