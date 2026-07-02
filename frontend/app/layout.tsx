@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from 'next/link';
 import AutoRefresh from '@/components/AutoRefresh';
+import VigilLogo from '@/components/VigilLogo';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,11 +42,7 @@ export default function RootLayout({
         >
           {/* LEFT - Logo */}
           <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <svg className="w-[20px] h-[20px] text-[#34d399]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
-              <line x1="16" y1="8" x2="2" y2="22"/>
-              <line x1="17.5" y1="15" x2="9" y2="15"/>
-            </svg>
+            <VigilLogo className="w-[28px] h-[28px] text-[#34d399]" />
             <span className="text-[#f5f5f5] font-medium text-base">Vigil</span>
           </Link>
 
