@@ -1,7 +1,6 @@
 import { fetchModels, fetchModelHistory } from '@/lib/api-server';
 import SparklineChart from '@/components/SparklineChart';
 import Link from 'next/link';
-import { Monitor, Activity, Clock } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,7 +46,7 @@ function timeAgo(dateString: string) {
 
 function formatDateFull(dateString: string) {
   const date = new Date(dateString);
-  return `on ${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+  return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
 }
 
 export default async function HomePage() {
@@ -61,37 +60,28 @@ export default async function HomePage() {
   const totalPrompts = models.reduce((acc: number, m: ModelSummary) => acc + m.total_prompts, 0);
 
   return (
-    <div className="max-w-7xl mx-auto pb-12">
-      {/* Page header section */}
-      <div className="pt-10 pb-6 px-6 max-w-5xl mx-auto w-full">
-        <h1 className="text-[#f1f5f9] text-4xl font-bold tracking-tight">AI Model Monitor</h1>
-        <p className="text-[#64748b] text-base mt-2">
-          Know the moment your model <span style={{color: '#34d399'}}>changes</span> behavior.
-        </p>
-        <div className="mt-6 flex gap-8">
-          <div className="flex items-center gap-2 border-r border-[#1e2433] pr-8">
-            <Monitor className="w-4 h-4 text-[#64748b]" />
-            <div>
-              <span className="text-[#f1f5f9] font-semibold">{totalModels}</span>
-              <span className="text-[#64748b] text-sm ml-1">models monitored</span>
-            </div>
+    <div className="min-h-screen bg-[#0a0a0a] pt-8 pb-16">
+      {/* Page header */}
+      <div className="max-w-5xl mx-auto px-6 mb-8 flex justify-between items-end">
+        <div>
+          <h1 className="text-2xl font-semibold text-[#f5f5f5] tracking-tight">AI Model Monitor</h1>
+          <p className="text-sm text-[#737373] mt-1">Know the moment your model changes behavior.</p>
+        </div>
+        <div className="flex gap-3">
+          <div className="bg-[#111111] border border-[#1c1c1c] rounded-full px-3 py-1 text-xs text-[#737373]">
+            {totalModels} models
           </div>
-          <div className="flex items-center gap-2 border-r border-[#1e2433] pr-8">
-            <Activity className="w-4 h-4 text-[#64748b]" />
-            <div>
-              <span className="text-[#f1f5f9] font-semibold">{totalPrompts}</span>
-              <span className="text-[#64748b] text-sm ml-1">checks run this week</span>
-            </div>
+          <div className="bg-[#111111] border border-[#1c1c1c] rounded-full px-3 py-1 text-xs text-[#737373]">
+            {totalPrompts} checks
           </div>
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-[#64748b]" />
-            <span className="text-[#64748b] text-sm">Updated weekly</span>
+          <div className="bg-[#111111] border border-[#1c1c1c] rounded-full px-3 py-1 text-xs text-[#737373]">
+            Weekly
           </div>
         </div>
       </div>
 
-      {/* Model cards grid */}
-      <div className="mt-8 flex flex-col gap-4 px-6 max-w-5xl mx-auto w-full">
+      {/* Model cards */}
+      <div className="max-w-5xl mx-auto px-6 flex flex-col gap-3">
         {models.map((model: ModelSummary, idx: number) => {
           const history = histories[idx];
           
@@ -102,110 +92,118 @@ export default async function HomePage() {
           const stableCount = model.total_prompts - model.drifted_count;
           const percentage = Math.round((stableCount / model.total_prompts) * 100);
           
-          const STATUS_MAP: Record<string, {color: string, label: string, sublabel: string}> = {
+          const STATUS_MAP: Record<string, {color: string, label: string, bg: string}> = {
             stable: { 
               color: "#34d399", 
+              bg: "rgba(52,211,153,0.1)",
               label: "All clear",
-              sublabel: "No changes detected"
             },
             watch: { 
               color: "#f59e0b", 
+              bg: "rgba(245,158,11,0.1)",
               label: "Changes detected",
-              sublabel: "Review recommended"
             },
             drift: { 
               color: "#f87171", 
+              bg: "rgba(248,113,113,0.1)",
               label: "Needs attention",
-              sublabel: "Significant changes found"
             },
           };
-          const statusConfig = model.drifted_count === 0 
-            ? STATUS_MAP.stable 
-            : (model.status === 'drift' ? STATUS_MAP.drift : STATUS_MAP.watch);
+          const statusKey = model.drifted_count === 0 
+            ? 'stable' 
+            : (model.status === 'drift' ? 'drift' : 'watch');
+          const statusConfig = STATUS_MAP[statusKey];
           const statusColor = statusConfig.color;
-          const statusLabel = statusConfig.label;
           
           return (
-            <Link key={model.model} href={`/models/${encodeURIComponent(model.model)}`} className="block">
+            <Link key={model.model} href={`/models/${encodeURIComponent(model.model)}`} className="block relative card-grid-texture border border-[#1c1c1c] rounded-[8px] overflow-hidden transition-all hover:border-[#2a2a2a]">
               <div 
-                className="bg-[#161b27] border border-[#1e2433] rounded-[12px] overflow-hidden cursor-pointer transition-colors duration-200 hover:border-[#2d3748] hover:bg-[#1a2035] p-6"
-                style={{ borderLeft: `3px solid ${statusColor}` }}
-              >
+                className="absolute left-0 top-0 bottom-0 w-[3px]"
+                style={{ background: statusColor, borderRadius: '3px 0 0 3px' }}
+              ></div>
+              <div className="p-[20px] px-[24px]">
                 
                 {/* Row 1: Identity + Status */}
                 <div className="flex justify-between items-start">
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: statusColor }}>
+                    <div 
+                      className="text-xs tracking-widest uppercase font-['Share_Tech_Mono']" 
+                      style={{ color: statusColor, opacity: 0.7 }}
+                    >
                       {provider}
                     </div>
-                    <div className="text-2xl font-bold text-[#f1f5f9] mt-1">
+                    <div className="text-lg font-medium text-[#f5f5f5] mt-0.5 font-['Share_Tech_Mono']">
                       {modelName}
                     </div>
                   </div>
                   <div>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full border" style={{ backgroundColor: `${statusColor}1A`, borderColor: `${statusColor}4D` }}>
-                      <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: statusColor }}></div>
-                      <span className="font-medium text-sm" style={{ color: statusColor }}>{statusLabel}</span>
+                    <div 
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium" 
+                      style={{ backgroundColor: statusConfig.bg, borderColor: `${statusColor}33`, borderWidth: '1px', color: statusColor }}
+                    >
+                      <div className={`w-[6px] h-[6px] rounded-full ${model.drifted_count > 0 ? 'animate-pulse' : ''}`} style={{ backgroundColor: statusColor }}></div>
+                      {statusConfig.label}
                     </div>
                   </div>
                 </div>
 
-                <div className="border-t border-[#1e2433] my-5"></div>
+                <div className="border-t border-[#1c1c1c] my-4"></div>
 
-                {/* Row 2: Stats row */}
-                <div className="grid grid-cols-4 gap-6">
+                {/* Row 2: Stats */}
+                <div className="grid grid-cols-4 gap-0 divide-x divide-[#1c1c1c]">
                   {/* Col 1: Checks passed */}
-                  <div>
-                    <div className="text-[#64748b] text-xs mb-2">Checks passed</div>
+                  <div className="px-4 pl-0">
+                    <div className="text-xs text-[#737373] mb-2">Checks passed</div>
                     <div>
-                      <span className="text-[#f1f5f9] text-3xl font-bold">{stableCount}</span>
-                      <span className="text-[#64748b]"> of {model.total_prompts}</span>
+                      <span className="text-2xl font-semibold text-[#f5f5f5] font-['Share_Tech_Mono']">{stableCount}</span>
+                      <span className="text-sm text-[#404040] ml-1">of {model.total_prompts}</span>
                     </div>
-                    <div className="mt-2 h-1 rounded-sm bg-[#1e2433] w-full">
+                    <div className="mt-2 h-[2px] rounded-[2px] bg-[#1c1c1c] w-full overflow-hidden">
                       <div 
-                        className="h-full rounded-sm transition-all duration-500" 
+                        className="h-full transition-all duration-500 rounded-[2px]" 
                         style={{ backgroundColor: statusColor, width: `${percentage}%` }}
                       ></div>
                     </div>
-                    <div className="text-xs text-[#64748b] mt-1">{percentage}%</div>
                   </div>
                   
                   {/* Col 2: Last checked */}
-                  <div>
-                    <div className="text-[#64748b] text-xs mb-2">Last checked</div>
-                    <div className="font-semibold text-[#f1f5f9] text-lg">
+                  <div className="px-4">
+                    <div className="text-xs text-[#737373] mb-2">Last checked</div>
+                    <div className="text-base font-medium text-[#f5f5f5]">
                       {timeAgo(model.last_run_timestamp)}
                     </div>
-                    <div className="text-xs text-[#64748b] mt-1">
+                    <div className="text-xs text-[#404040] mt-0.5">
                       {formatDateFull(model.last_run_timestamp)}
                     </div>
                   </div>
                   
-                  {/* Col 3: This week status */}
-                  <div>
-                    <div className="h-6 mb-2"></div> {/* Empty space for alignment with labels */}
+                  {/* Col 3: This week */}
+                  <div className="px-4">
+                    <div className="text-xs text-transparent mb-2 select-none">Status</div>
                     {model.drifted_count === 0 ? (
                       <>
-                        <div className="font-bold text-xl text-[#34d399]">Stable</div>
-                        <div className="text-xs text-[#64748b] mt-1">✓ No changes detected</div>
+                        <div className="text-base font-medium text-[#34d399]">Stable</div>
+                        <div className="text-xs text-[#404040] mt-0.5">✓ No changes</div>
                       </>
                     ) : (
                       <>
-                        <div className={`font-bold text-xl ${model.status === 'drift' ? 'text-[#f87171]' : 'text-[#f59e0b]'}`}>
+                        <div className={`text-base font-medium ${model.status === 'drift' ? 'text-[#f87171]' : 'text-[#f59e0b]'}`}>
                           {model.drifted_count} changed
                         </div>
-                        <div className="text-xs text-[#64748b] mt-1">
-                          ⚠ {model.status === 'drift' ? 'Significant changes found' : 'Review recommended'}
+                        <div className="text-xs text-[#404040] mt-0.5">
+                          ⚠ Review recommended
                         </div>
                       </>
                     )}
                   </div>
                   
                   {/* Col 4: Stability trend */}
-                  <div>
-                    <div className="text-[#64748b] text-xs mb-2">Stability trend</div>
+                  <div className="px-4 pr-0">
+                    <div className="text-xs text-[#737373] mb-2">Stability trend</div>
                     {history && history.length > 0 && (
-                      <SparklineChart data={history.slice(-7)} color={statusColor} />
+                      <div className="h-12 w-full">
+                        <SparklineChart data={history.slice(-7)} lineColor={statusColor} />
+                      </div>
                     )}
                   </div>
                 </div>
@@ -214,14 +212,9 @@ export default async function HomePage() {
           );
         })}
         {models.length === 0 && (
-          <div className="text-[#64748b] text-center py-10">No models found.</div>
+          <div className="text-[#737373] text-center py-10">No models found.</div>
         )}
       </div>
-
-      {/* Footer */}
-      <p className="text-[#475569] text-xs text-center mt-8 pb-8">
-        ⓘ All times are relative to your local timezone
-      </p>
     </div>
   );
 }

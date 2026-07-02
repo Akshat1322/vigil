@@ -53,11 +53,11 @@ export default function BsiTrendChart({ history, lineColor = "#34d399" }: Props)
               <stop offset="100%" stopColor={lineColor} stopOpacity={0}/>
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1e2433" vertical={false} />
-          <XAxis dataKey="formattedTime" stroke="#64748b" tick={{fill: '#64748b', fontSize: 12}} tickLine={{stroke: '#1e2433'}} />
-          <YAxis domain={[0, 100]} stroke="#64748b" tick={{fill: '#64748b', fontSize: 12}} tickLine={{stroke: '#1e2433'}} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#1c1c1c" vertical={false} />
+          <XAxis dataKey="formattedTime" stroke="#404040" tick={{fill: '#404040', fontSize: 12}} tickLine={{stroke: '#1c1c1c'}} />
+          <YAxis domain={[0, 100]} stroke="#404040" tick={{fill: '#404040', fontSize: 12}} tickLine={{stroke: '#1c1c1c'}} />
           <Tooltip 
-            contentStyle={{ backgroundColor: '#161b27', borderColor: '#1e2433', color: '#f1f5f9' }}
+            contentStyle={{ backgroundColor: '#161616', borderColor: '#1c1c1c', color: '#f5f5f5' }}
             itemStyle={{ color: lineColor }}
             labelFormatter={(label) => `Run at: ${label}`}
             formatter={(value, name, props) => [
@@ -65,8 +65,8 @@ export default function BsiTrendChart({ history, lineColor = "#34d399" }: Props)
               'BSI Score'
             ]}
           />
-          <ReferenceLine y={90} stroke="#475569" strokeDasharray="3 3" label={{ position: 'top', value: 'Stable threshold', fill: '#475569', fontSize: 12 }} />
-          <Area type="monotone" dataKey="bsi" stroke={lineColor} strokeWidth={2} fill={`url(#${gradientId})`} activeDot={{ r: 6, fill: lineColor, stroke: '#161b27' }} />
+          <ReferenceLine y={90} stroke="#2a2a2a" strokeDasharray="3 3" label={{ position: 'top', value: 'Stable threshold', fill: '#404040', fontSize: 12 }} />
+          <Area type="monotone" dataKey="bsi" stroke={lineColor} strokeWidth={2} fill={`url(#${gradientId})`} activeDot={{ r: 6, fill: lineColor, stroke: '#111111' }} />
         </AreaChart>
       </ResponsiveContainer>
     </div>
