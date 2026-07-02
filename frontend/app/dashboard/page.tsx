@@ -127,12 +127,12 @@ export default async function HomePage() {
                 <div className="flex justify-between items-start">
                   <div>
                     <div 
-                      className="text-xs tracking-widest uppercase font-['Share_Tech_Mono']" 
+                      className="text-xs tracking-widest uppercase font-['Space_Grotesk']" 
                       style={{ color: statusColor, opacity: 0.7 }}
                     >
                       {provider}
                     </div>
-                    <div className="text-lg font-medium text-[#f5f5f5] mt-0.5 font-['Share_Tech_Mono']">
+                    <div className="text-lg font-medium text-[#f5f5f5] mt-0.5 font-['Space_Grotesk']">
                       {modelName}
                     </div>
                   </div>
@@ -155,7 +155,7 @@ export default async function HomePage() {
                   <div className="px-4 pl-0">
                     <div className="text-xs text-[#737373] mb-2">Checks passed</div>
                     <div>
-                      <span className="text-2xl font-semibold text-[#f5f5f5] font-['Share_Tech_Mono']">{stableCount}</span>
+                      <span className="text-2xl font-semibold text-[#f5f5f5] font-['Space_Grotesk']">{stableCount}</span>
                       <span className="text-sm text-[#404040] ml-1">of {model.total_prompts}</span>
                     </div>
                     <div className="mt-2 h-[2px] rounded-[2px] bg-[#1c1c1c] w-full overflow-hidden">

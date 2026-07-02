@@ -1,0 +1,4 @@
+- [x] Update header navigation in `frontend/app/layout.tsx`
+- [x] Make grid fixed and remove fade mask in `frontend/app/globals.css`
+- [x] Redesign landing page sections to dark mode in `frontend/app/page.tsx`
+- [x] Verify everything looks great and commit changes

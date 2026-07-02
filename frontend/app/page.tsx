@@ -27,7 +27,7 @@ export default function Home() {
           
           {/* Small label */}
           <p style={{ 
-            fontFamily: "'Share Tech Mono', monospace",
+            fontFamily: "'Space Grotesk', monospace",
             color: '#34d399',
             fontSize: '0.75rem',
             letterSpacing: '0.3em',
@@ -40,7 +40,7 @@ export default function Home() {
 
           {/* Main headline */}
           <h1 style={{
-            fontFamily: "'Share Tech Mono', monospace",
+            fontFamily: "'Space Grotesk', monospace",
             color: '#f5f5f5',
             fontSize: 'clamp(2rem, 5vw, 4rem)',
             lineHeight: 1.2,
@@ -83,7 +83,7 @@ export default function Home() {
             <Link href="/dashboard" style={{
               background: '#34d399',
               color: '#000',
-              fontFamily: "'Share Tech Mono', monospace",
+              fontFamily: "'Space Grotesk', monospace",
               fontWeight: 600,
               padding: '0.875rem 2rem',
               borderRadius: '6px',
@@ -115,7 +115,7 @@ export default function Home() {
             marginTop: '3rem',
             color: '#4b5563',
             fontSize: '0.8rem',
-            fontFamily: "'Share Tech Mono', monospace",
+            fontFamily: "'Space Grotesk', monospace",
             letterSpacing: '0.05em'
           }}>
             3 models monitored · 300 checks run this week · 
@@ -226,7 +226,7 @@ export default function Home() {
                   background: 'rgba(52, 211, 153, 0.1)',
                   border: '1px solid rgba(52, 211, 153, 0.3)',
                   color: '#34d399',
-                  fontFamily: "'Share Tech Mono', monospace",
+                  fontFamily: "'Space Grotesk', monospace",
                   fontSize: '0.8rem',
                   display: 'flex',
                   alignItems: 'center',
@@ -257,7 +257,7 @@ export default function Home() {
       <section className="py-24 px-6 text-center relative z-10" style={{ background: 'transparent' }}>
         
         <h2 style={{
-          fontFamily: "'Share Tech Mono', monospace",
+          fontFamily: "'Space Grotesk', monospace",
           color: '#ffffff',
           fontSize: '2rem',
           marginBottom: '1rem',
@@ -273,7 +273,7 @@ export default function Home() {
         <Link href="/dashboard" style={{
           background: '#34d399',
           color: '#000',
-          fontFamily: "'Share Tech Mono', monospace",
+          fontFamily: "'Space Grotesk', monospace",
           padding: '1rem 2.5rem',
           borderRadius: '6px',
           textDecoration: 'none',
@@ -289,7 +289,7 @@ export default function Home() {
           marginTop: '1.5rem',
           color: '#404040',
           fontSize: '0.8rem',
-          fontFamily: "'Share Tech Mono', monospace"
+          fontFamily: "'Space Grotesk', monospace"
         }}>
           No signup required · Free to use · Open source
         </p>
@@ -307,7 +307,7 @@ export default function Home() {
         }}>
           <div style={{ textAlign: 'left' }}>
             <div style={{
-              fontFamily: "'Share Tech Mono', monospace",
+              fontFamily: "'Space Grotesk', monospace",
               color: '#34d399',
               fontSize: '1rem',
               marginBottom: '0.25rem'
