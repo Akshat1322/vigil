@@ -272,7 +272,8 @@ if __name__ == "__main__":
             BaselineManager().establish_all_baselines()
         run_with_drift_check(model=args.model)
     except Exception as e:
+        import traceback
         print(f"\n[ERROR] Model '{args.model}' execution failed:")
-        print(f"Details: {e}")
-        print("\nGracefully exiting with code 0 (expected behavior if hosted model is not yet configured or unreachable).")
-        sys.exit(0)
+        traceback.print_exc()
+        print("\nExiting with code 1 to fail the GitHub Action.")
+        sys.exit(1)
