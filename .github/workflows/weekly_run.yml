@@ -50,3 +50,9 @@ jobs:
           name: drift-monitor-db
           path: data/drift_monitor.db
           retention-days: 90
+          
+      - name: Revalidate Frontend Cache
+        run: |
+          echo "Waiting 3 minutes for Render to deploy the new database..."
+          sleep 180
+          curl -X POST -H "x-revalidate-secret: ${{ secrets.REVALIDATE_SECRET }}" ${{ secrets.NEXTJS_URL }}/api/revalidate

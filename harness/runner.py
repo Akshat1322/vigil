@@ -213,8 +213,9 @@ def run_with_drift_check(model: str, prompt_version: str = CURRENT_PROMPT_VERSIO
             if stable_count > 0:
                 print(f"{'':27s}({stable_count}/{total_count} stable)")
 
-    notify_frontend_revalidate()
-
+    # notify_frontend_revalidate() is now handled by GitHub Actions
+    # to avoid race conditions with Render deployments.
+    
     return {"results": results, "drift_summary": drift_summary, "bsi": bsi_score}
 
 def notify_frontend_revalidate():
