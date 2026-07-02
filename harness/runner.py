@@ -114,7 +114,8 @@ def run_full_suite(model: str, prompt_version: str = CURRENT_PROMPT_VERSION) -> 
         List of all ScoreResult objects from the run.
     """
     data = load_prompts(prompt_version)
-    prompts = data["prompts"]
+    # Trim to 15 prompts to prevent hitting Google's 20-request/day free tier limit
+    prompts = data["prompts"][:15]
     total = len(prompts)
     results: list[ScoreResult] = []
     run_id = str(uuid.uuid4())
