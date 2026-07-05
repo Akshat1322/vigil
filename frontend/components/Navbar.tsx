@@ -38,8 +38,11 @@ export default function Navbar() {
 
         {/* Center: Floating Pill Navbar */}
         <nav className="pointer-events-auto hidden md:flex items-center gap-8 bg-[#111111]/50 backdrop-blur-lg border border-[#2a2a2a] rounded-full px-8 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-          {pathname === '/dashboard' && (
+          {pathname !== '/' && (
             <Link href="/" className="text-xs font-medium text-[#f5f5f5] hover:text-[#34d399] transition-colors">Home</Link>
+          )}
+          {pathname !== '/' && pathname !== '/dashboard' && (
+            <Link href="/dashboard" className="text-xs font-medium text-[#a1a1a1] hover:text-[#f5f5f5] transition-colors">Dashboard</Link>
           )}
           <button 
             onMouseEnter={() => setActiveModal('features')}
