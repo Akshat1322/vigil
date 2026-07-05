@@ -47,14 +47,14 @@ export default async function TechnicalReportPage({ params }: { params: Promise<
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-8 pb-16">
       {/* Breadcrumb */}
-      <div className="max-w-5xl mx-auto px-6 mb-6">
+      <div className="max-w-5xl mx-auto px-4 md:px-6 mb-6">
         <Link href={`/models/${encodeURIComponent(report.model)}`} className="text-xs text-[#737373] hover:text-[#f5f5f5] transition-colors">
           &larr; {report.model} summary
         </Link>
       </div>
 
       {/* Header Card */}
-      <div className="card-grid-texture border border-[#1c1c1c] rounded-lg p-6 max-w-5xl mx-auto mb-6 flex justify-between items-start">
+      <div className="card-grid-texture border border-[#1c1c1c] rounded-lg p-4 md:p-6 max-w-5xl mx-auto mb-6 flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 mx-4 md:mx-auto">
         <div>
           <div className="text-xs text-[#737373] uppercase tracking-widest font-sans font-bold mb-1">
             Technical Report
@@ -66,7 +66,7 @@ export default async function TechnicalReportPage({ params }: { params: Promise<
             Run on {new Date(report.run_timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at {new Date(report.run_timestamp).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
           </div>
         </div>
-        <div className="text-right">
+        <div className="text-left sm:text-right">
           <div className="text-xs text-[#737373] uppercase tracking-widest font-sans font-bold mb-1">
             OVERALL BSI SCORE
           </div>
@@ -80,7 +80,7 @@ export default async function TechnicalReportPage({ params }: { params: Promise<
       </div>
 
       {/* Table */}
-      <div className="max-w-5xl mx-auto card-grid-texture border border-[#1c1c1c] rounded-lg overflow-hidden mb-4">
+      <div className="max-w-5xl mx-auto mx-4 md:mx-auto card-grid-texture border border-[#1c1c1c] rounded-lg overflow-hidden mb-4">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-[#1c1c1c]">
             <thead className="bg-[#0f0f0f]">

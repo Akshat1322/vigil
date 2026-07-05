@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <>
       <header 
-        className="h-[52px] w-full px-6 sticky top-0 z-50 flex items-center justify-between"
+        className="h-[52px] w-full px-4 md:px-6 sticky top-0 z-50 flex items-center justify-between"
         style={{ 
           background: 'rgba(10,10,10,0.85)', 
           backdropFilter: 'blur(12px)',
@@ -68,7 +68,7 @@ export default function Navbar() {
         </Link>
 
         {/* CENTER - Nav */}
-        <nav className="flex gap-6 items-center">
+        <nav className="flex gap-4 md:gap-6 items-center">
           <button 
             onMouseEnter={() => setActiveModal('features')}
             onClick={() => setActiveModal(activeModal === 'features' ? null : 'features')}
@@ -94,7 +94,7 @@ export default function Navbar() {
       {/* MODAL OVERLAY */}
       {activeModal && (
         <div 
-          className="fixed inset-0 z-40 flex items-center justify-center p-6 pt-[52px]"
+          className="fixed inset-0 z-40 flex items-center justify-center p-4 md:p-6 pt-[52px]"
           style={{ 
             background: 'rgba(5, 5, 5, 0.7)', 
             backdropFilter: 'blur(8px)',
@@ -118,7 +118,7 @@ export default function Navbar() {
             </button>
 
             {activeModal === 'how-it-works' && (
-              <div className="card-grid-texture border border-[#1c1c1c] rounded-xl p-10 shadow-2xl">
+              <div className="card-grid-texture border border-[#1c1c1c] rounded-xl p-6 md:p-10 shadow-2xl w-[95vw] md:w-full max-h-[80vh] overflow-y-auto mx-auto">
                 <div className="text-center mb-10">
                   <h2 className="text-2xl font-bold text-[#f5f5f5] mb-2">
                     The silent problem with LLM APIs
@@ -157,7 +157,7 @@ export default function Navbar() {
             )}
 
             {activeModal === 'features' && (
-              <div className="card-grid-texture border border-[#1c1c1c] rounded-xl p-10 md:p-14 shadow-2xl max-w-3xl mx-auto">
+              <div className="card-grid-texture border border-[#1c1c1c] rounded-xl p-6 md:p-14 shadow-2xl max-w-3xl mx-auto w-[95vw] md:w-full max-h-[80vh] overflow-y-auto">
                 <h2 className="text-2xl font-bold text-[#f5f5f5] text-center mb-10">
                   How Vigil works
                 </h2>

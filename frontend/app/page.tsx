@@ -112,8 +112,8 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <footer className="absolute bottom-0 left-0 w-full px-6 py-4 flex justify-between items-center border-t border-[#1c1c1c] z-20" style={{ background: 'rgba(10,10,10,0.5)', backdropFilter: 'blur(8px)' }}>
-          <div className="flex flex-col text-left">
+        <footer className="absolute bottom-0 left-0 w-full px-4 md:px-6 py-4 flex flex-col sm:flex-row justify-between items-center border-t border-[#1c1c1c] z-20 gap-4 sm:gap-0" style={{ background: 'rgba(10,10,10,0.5)', backdropFilter: 'blur(8px)' }}>
+          <div className="flex flex-col text-center sm:text-left">
             <span style={{ fontFamily: "inherit", color: '#34d399', fontSize: '1rem', fontWeight: 600, marginBottom: '0.15rem' }}>
               ✦ Vigil
             </span>

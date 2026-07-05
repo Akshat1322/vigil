@@ -37,12 +37,13 @@ export default function ComingSoonCard({ provider, model, fakeData }: ComingSoon
       }} />
 
       {/* Provider banner + Model name — top of card, NOT blurred */}
-      <div style={{
-        padding: '10px 24px 14px',
-        borderBottom: '1px solid #1c1c1c',
-        background: 'rgba(17,17,17,0.6)',
-        position: 'relative',
-        zIndex: 11,
+      <div 
+        className="px-4 md:px-[24px] py-[10px]"
+        style={{
+          borderBottom: '1px solid #1c1c1c',
+          background: 'rgba(17,17,17,0.6)',
+          position: 'relative',
+          zIndex: 11,
       }}>
         <span style={{
           fontSize: '0.7rem',
@@ -64,12 +65,13 @@ export default function ComingSoonCard({ provider, model, fakeData }: ComingSoon
       </div>
 
       {/* FAKE DATA LAYER — blurred underneath */}
-      <div style={{
-        padding: '20px 24px',
-        filter: 'blur(4px)',
-        userSelect: 'none',
-        pointerEvents: 'none',
-        opacity: 0.6
+      <div 
+        className="px-4 md:px-[24px] py-[20px]"
+        style={{
+          filter: 'blur(4px)',
+          userSelect: 'none',
+          pointerEvents: 'none',
+          opacity: 0.6
       }}>
         {/* Row 1 — provider + model + fake badge */}
         <div style={{

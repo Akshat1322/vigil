@@ -161,12 +161,12 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-8 pb-16">
       {/* Page header */}
-      <div className="max-w-7xl mx-auto px-6 mb-8 flex justify-between items-end">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-0">
         <div>
           <h1 className="text-2xl font-semibold text-[#f5f5f5] tracking-tight">AI Model Monitor</h1>
           <p className="text-sm text-[#737373] mt-1">Know the moment your model changes behavior.</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-2 md:gap-3">
           <div className="bg-[#111111] border border-[#1c1c1c] rounded-full px-3 py-1 text-xs text-[#737373]">
             {models.length} active
           </div>
@@ -183,7 +183,7 @@ export default async function HomePage() {
       </div>
 
       {/* Model cards — 3-column grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6 max-w-7xl mx-auto">
         {/* Real model cards */}
         {models.map((model: ModelSummary, idx: number) => {
           const history = histories[idx];
@@ -227,7 +227,7 @@ export default async function HomePage() {
 
               {/* Provider banner — top of card */}
               <div 
-                className="px-[24px] py-[10px] flex items-center justify-between"
+                className="px-4 md:px-[24px] py-[10px] flex items-center justify-between"
                 style={{ borderBottom: '1px solid #1c1c1c', background: 'rgba(17,17,17,0.6)' }}
               >
                 <span 
@@ -245,7 +245,7 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <div className="p-[20px] px-[24px]">
+              <div className="p-[20px] px-4 md:px-[24px]">
                 
                 {/* Model name */}
                 <div className="text-lg font-semibold text-[#f5f5f5]">
