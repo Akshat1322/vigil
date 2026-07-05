@@ -149,8 +149,9 @@ function formatDateFull(dateString: string) {
   return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
 }
 
-export default async function ProviderPage({ params }: { params: { provider: string } }) {
-  const providerParam = params.provider.toLowerCase();
+export default async function ProviderPage({ params }: { params: Promise<{ provider: string }> }) {
+  const resolvedParams = await params;
+  const providerParam = resolvedParams.provider.toLowerCase();
   
   let models = await fetchModels();
   
