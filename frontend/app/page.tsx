@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import WarpButton from '@/components/WarpButton';
 
 export default function Home() {
   return (
@@ -77,10 +78,10 @@ export default function Home() {
             LLM providers update their models silently. Vigil runs 100 behavioral checks weekly and alerts you the moment something shifts.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-             <Link href="/dashboard" className="px-8 py-3 rounded-full bg-[#111111] border border-[#2a2a2a] text-[#f5f5f5] text-sm font-medium hover:bg-[#1a1a1a] hover:border-[#404040] transition-all flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-6">
+             <WarpButton href="/dashboard">
                Open App <span className="text-[#737373]">↗</span>
-             </Link>
+             </WarpButton>
           </div>
         </section>
 
