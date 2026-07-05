@@ -1,115 +1,15 @@
-import { fetchModels, fetchModelHistory } from '@/lib/api-server';
-import SparklineChart from '@/components/SparklineChart';
-import ComingSoonCard from '@/components/ComingSoonCard';
+import { fetchModels } from '@/lib/api-server';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
 const COMING_SOON_MODELS = [
-  {
-    provider: "OPENAI",
-    model: "gpt-4o",
-    fakeData: {
-      checks_passed: 94,
-      total: 100,
-      last_checked: "Monitoring soon",
-      this_week: "—",
-      bsi: 94.0,
-      status: "stable"
-    }
-  },
-  {
-    provider: "OPENAI",
-    model: "gpt-4o-mini",
-    fakeData: {
-      checks_passed: 91,
-      total: 100,
-      last_checked: "Monitoring soon",
-      this_week: "—",
-      bsi: 91.0,
-      status: "stable"
-    }
-  },
-  {
-    provider: "ANTHROPIC",
-    model: "claude-3-5-haiku",
-    fakeData: {
-      checks_passed: 96,
-      total: 100,
-      last_checked: "Monitoring soon",
-      this_week: "—",
-      bsi: 96.0,
-      status: "stable"
-    }
-  },
-  {
-    provider: "ANTHROPIC",
-    model: "claude-3-5-sonnet",
-    fakeData: {
-      checks_passed: 98,
-      total: 100,
-      last_checked: "Monitoring soon",
-      this_week: "—",
-      bsi: 98.0,
-      status: "stable"
-    }
-  },
-  {
-    provider: "GOOGLE",
-    model: "gemini-2.0-flash",
-    fakeData: {
-      checks_passed: 93,
-      total: 100,
-      last_checked: "Monitoring soon",
-      this_week: "—",
-      bsi: 93.0,
-      status: "stable"
-    }
-  },
-  {
-    provider: "GOOGLE",
-    model: "gemini-1.5-pro",
-    fakeData: {
-      checks_passed: 97,
-      total: 100,
-      last_checked: "Monitoring soon",
-      this_week: "—",
-      bsi: 97.0,
-      status: "stable"
-    }
-  },
-  {
-    provider: "META",
-    model: "llama-3.1-70b",
-    fakeData: {
-      checks_passed: 89,
-      total: 100,
-      last_checked: "Monitoring soon",
-      this_week: "—",
-      bsi: 89.0,
-      status: "stable"
-    }
-  },
-  {
-    provider: "MISTRAL",
-    model: "mistral-large",
-    fakeData: {
-      checks_passed: 92,
-      total: 100,
-      last_checked: "Monitoring soon",
-      this_week: "—",
-      bsi: 92.0,
-      status: "stable"
-    }
-  }
+  { provider: "OPENAI" },
+  { provider: "ANTHROPIC" },
+  { provider: "GOOGLE" },
+  { provider: "META" },
+  { provider: "MISTRAL" }
 ];
-
-interface CategoryStatus {
-  category: string
-  stable_count: number
-  total_count: number
-  drift_detected: boolean
-}
 
 interface ModelSummary {
   model: string
@@ -119,44 +19,42 @@ interface ModelSummary {
   regression_rate: number
   drifted_count: number
   total_prompts: number
-  categories: CategoryStatus[]
 }
 
-interface BsiHistoryPoint {
-  run_id: string
-  timestamp: string
-  bsi: number
+// Helper to get a nicely formatted display name and simple SVG logo text
+function getProviderDisplay(providerKey: string) {
+  const p = providerKey.toLowerCase();
+  if (p === 'all') return { name: 'All Models', short: 'ALL' };
+  if (p === 'openai') return { name: 'OpenAI', short: 'OAI' };
+  if (p === 'anthropic') return { name: 'Anthropic', short: 'ANT' };
+  if (p === 'google') return { name: 'Google', short: 'GOO' };
+  if (p === 'meta') return { name: 'Meta', short: 'MET' };
+  if (p === 'mistral') return { name: 'Mistral', short: 'MST' };
+  return { name: providerKey.toUpperCase(), short: providerKey.substring(0, 3).toUpperCase() };
 }
 
-function timeAgo(dateString: string) {
-  const date = new Date(dateString);
-  const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-  let interval = seconds / 31536000;
-  if (interval > 1) return Math.floor(interval) + " years ago";
-  interval = seconds / 2592000;
-  if (interval > 1) return Math.floor(interval) + " months ago";
-  interval = seconds / 86400;
-  if (interval >= 1) return Math.floor(interval) + (Math.floor(interval) === 1 ? " day ago" : " days ago");
-  interval = seconds / 3600;
-  if (interval >= 1) return Math.floor(interval) + (Math.floor(interval) === 1 ? " hour ago" : " hours ago");
-  interval = seconds / 60;
-  if (interval >= 1) return Math.floor(interval) + (Math.floor(interval) === 1 ? " minute ago" : " minutes ago");
-  return Math.floor(seconds) + " seconds ago";
-}
-
-function formatDateFull(dateString: string) {
-  const date = new Date(dateString);
-  return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
-}
-
-export default async function HomePage() {
+export default async function DashboardRootPage() {
   const models = await fetchModels();
   
-  const histories = await Promise.all(
-    models.map((m: ModelSummary) => fetchModelHistory(m.model).catch(() => []))
-  );
+  // Extract unique providers from active models
+  const providerSet = new Set<string>();
+  models.forEach((m: ModelSummary) => {
+    const parts = m.model.split('/');
+    if (parts.length > 1) {
+      providerSet.add(parts[0].toLowerCase());
+    }
+  });
 
-  const totalPrompts = models.reduce((acc: number, m: ModelSummary) => acc + m.total_prompts, 0);
+  // Add coming soon providers to the set
+  COMING_SOON_MODELS.forEach(cs => {
+    providerSet.add(cs.provider.toLowerCase());
+  });
+
+  // Convert Set to array and sort it alphabetically
+  const providers = Array.from(providerSet).sort();
+
+  // Always put "All" at the very beginning
+  const allCards = ['all', ...providers];
 
   return (
     <div className="min-h-screen bg-black pt-24 pb-16 relative overflow-hidden font-sans">
@@ -169,180 +67,46 @@ export default async function HomePage() {
       </div>
 
       <div className="relative z-10">
-      {/* Page header */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-0">
-        <div>
-          <h1 className="text-2xl font-semibold text-[#f5f5f5] tracking-tight">AI Model Monitor</h1>
-          <p className="text-sm text-[#737373] mt-1">Know the moment your model changes behavior.</p>
+        {/* Page header */}
+        <div className="max-w-7xl mx-auto px-4 md:px-6 mb-12 flex flex-col items-center justify-center text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#f5f5f5] tracking-tight mb-3">Select Provider</h1>
+          <p className="text-[#9ca3af] max-w-lg">Choose a provider to view all active model monitoring streams and drift reports.</p>
         </div>
-        <div className="flex flex-wrap gap-2 md:gap-3">
-          <div className="bg-[#111111] border border-[#1c1c1c] rounded-full px-3 py-1 text-xs text-[#737373]">
-            {models.length} active
-          </div>
-          <div className="bg-[#111111] border border-[#1c1c1c] rounded-full px-3 py-1 text-xs text-[#737373]">
-            {COMING_SOON_MODELS.length} coming soon
-          </div>
-          <div className="bg-[#111111] border border-[#1c1c1c] rounded-full px-3 py-1 text-xs text-[#737373]">
-            {totalPrompts} checks
-          </div>
-          <div className="bg-[#111111] border border-[#1c1c1c] rounded-full px-3 py-1 text-xs text-[#737373]">
-            Weekly
-          </div>
-        </div>
-      </div>
 
-      {/* Model cards — 3-column grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 md:px-6 max-w-7xl mx-auto">
-        {/* Real model cards */}
-        {models.map((model: ModelSummary, idx: number) => {
-          const history = histories[idx];
+        {/* Provider cards — grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 md:px-6 max-w-5xl mx-auto">
           
-          const parts = model.model.split('/');
-          const provider = parts.length > 1 ? parts[0] : 'Unknown';
-          const modelName = parts.length > 1 ? parts.slice(1).join('/') : model.model;
-          
-          const stableCount = model.total_prompts - model.drifted_count;
-          const percentage = Math.round((stableCount / model.total_prompts) * 100);
-          
-          const STATUS_MAP: Record<string, {color: string, label: string, bg: string}> = {
-            stable: { 
-              color: "#34d399", 
-              bg: "rgba(52,211,153,0.1)",
-              label: "All clear",
-            },
-            watch: { 
-              color: "#f59e0b", 
-              bg: "rgba(245,158,11,0.1)",
-              label: "Changes detected",
-            },
-            drift: { 
-              color: "#f87171", 
-              bg: "rgba(248,113,113,0.1)",
-              label: "Needs attention",
-            },
-          };
-          const statusKey = model.drifted_count === 0 
-            ? 'stable' 
-            : (model.status === 'drift' ? 'drift' : 'watch');
-          const statusConfig = STATUS_MAP[statusKey];
-          const statusColor = statusConfig.color;
-          
-          return (
-            <Link key={model.model} href={`/models/${encodeURIComponent(model.model)}`} className="block relative card-grid-texture border border-[#2a2a2a] bg-[#111111]/60 backdrop-blur-xl shadow-xl rounded-xl overflow-hidden transition-all hover:border-[#404040] hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
-              <div 
-                className="absolute left-0 top-0 bottom-0 w-[3px]"
-                style={{ background: statusColor, borderRadius: '3px 0 0 3px' }}
-              ></div>
-
-              {/* Provider banner — top of card */}
-              <div 
-                className="px-4 md:px-[24px] py-[10px] flex items-center justify-between"
-                style={{ borderBottom: '1px solid #1c1c1c', background: 'rgba(17,17,17,0.6)' }}
+          {allCards.map((provider) => {
+            const display = getProviderDisplay(provider);
+            const isAll = provider === 'all';
+            
+            return (
+              <Link 
+                key={provider} 
+                href={`/dashboard/${provider}`} 
+                className={`group block relative card-grid-texture border border-[#2a2a2a] bg-[#111111]/60 backdrop-blur-xl shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:border-[#34d399] hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(52,211,153,0.15)] flex flex-col items-center justify-center min-h-[160px] ${isAll ? 'border-[#34d399]/40 bg-[#34d399]/5' : ''}`}
               >
-                <span 
-                  className="text-[0.7rem] font-semibold tracking-[0.2em] uppercase"
-                  style={{ color: statusColor }}
-                >
-                  {provider.toUpperCase()}
-                </span>
-                <div 
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium" 
-                  style={{ backgroundColor: statusConfig.bg, borderColor: `${statusColor}33`, borderWidth: '1px', color: statusColor }}
-                >
-                  <div className={`w-[6px] h-[6px] rounded-full ${model.drifted_count > 0 ? 'animate-pulse' : ''}`} style={{ backgroundColor: statusColor }}></div>
-                  {statusConfig.label}
+                {/* Logo Circle */}
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 ${isAll ? 'bg-[#34d399] text-black' : 'bg-[#1c1c1c] text-[#f5f5f5] group-hover:bg-[#1a1a1a]'}`}>
+                  {isAll ? (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                  ) : (
+                    <span className="font-bold text-sm tracking-wider">{display.short}</span>
+                  )}
                 </div>
-              </div>
-
-              <div className="p-[20px] px-4 md:px-[24px]">
                 
-                {/* Model name */}
-                <div className="text-lg font-semibold text-[#f5f5f5]">
-                  {modelName}
-                </div>
-
-                <div className="border-t border-[#1c1c1c] my-4"></div>
-
-                {/* Row 2: Stats — adapted for card layout (2 cols instead of 4) */}
-                <div className="grid grid-cols-2 gap-4">
-                  {/* Checks passed */}
-                  <div>
-                    <div className="text-xs text-[#737373] mb-2">Checks passed</div>
-                    <div>
-                      <span className="text-2xl font-semibold text-[#f5f5f5] font-sans font-bold">{stableCount}</span>
-                      <span className="text-sm text-[#404040] ml-1">of {model.total_prompts}</span>
-                    </div>
-                    <div className="mt-2 h-[2px] rounded-[2px] bg-[#1c1c1c] w-full overflow-hidden">
-                      <div 
-                        className="h-full transition-all duration-500 rounded-[2px]" 
-                        style={{ backgroundColor: statusColor, width: `${percentage}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                  
-                  {/* Last checked */}
-                  <div>
-                    <div className="text-xs text-[#737373] mb-2">Last checked</div>
-                    <div className="text-base font-medium text-[#f5f5f5]">
-                      {timeAgo(model.last_run_timestamp)}
-                    </div>
-                    <div className="text-xs text-[#404040] mt-0.5">
-                      {formatDateFull(model.last_run_timestamp)}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Row 3: Status + Sparkline */}
-                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-[#1c1c1c]">
-                  {/* This week */}
-                  <div>
-                    <div className="text-xs text-[#737373] mb-2">This week</div>
-                    {model.drifted_count === 0 ? (
-                      <>
-                        <div className="text-base font-medium text-[#34d399]">Stable</div>
-                        <div className="text-xs text-[#404040] mt-0.5">✓ No changes</div>
-                      </>
-                    ) : (
-                      <>
-                        <div className={`text-base font-medium ${model.status === 'drift' ? 'text-[#f87171]' : 'text-[#f59e0b]'}`}>
-                          {model.drifted_count} changed
-                        </div>
-                        <div className="text-xs text-[#404040] mt-0.5">
-                          ⚠ Review recommended
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  
-                  {/* Stability trend */}
-                  <div>
-                    <div className="text-xs text-[#737373] mb-2">Stability trend</div>
-                    {history && history.length > 0 && (
-                      <div className="h-12 w-full">
-                        <SparklineChart data={history.slice(-7)} lineColor={statusColor} />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-
-        {/* Coming Soon cards */}
-        {COMING_SOON_MODELS.map((cs) => (
-          <ComingSoonCard
-            key={`${cs.provider}-${cs.model}`}
-            provider={cs.provider}
-            model={cs.model}
-            fakeData={cs.fakeData}
-          />
-        ))}
-
-        {models.length === 0 && COMING_SOON_MODELS.length === 0 && (
-          <div className="text-[#737373] text-center py-10 col-span-full">No models found.</div>
-        )}
-      </div>
+                {/* Provider Name */}
+                <span className={`font-semibold tracking-wide ${isAll ? 'text-[#34d399]' : 'text-[#f5f5f5]'}`}>
+                  {display.name}
+                </span>
+                
+                {/* Accent line on hover */}
+                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#34d399] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </Link>
+            );
+          })}
+          
+        </div>
       </div>
     </div>
   );
