@@ -19,10 +19,10 @@ export default function Home() {
           
           {/* The static SVG paths (curves) */}
           <svg viewBox="0 0 1200 800" className="absolute inset-0 w-full h-full opacity-40">
-            <path d="M -100 200 L 250 200 C 350 200 400 350 600 350" fill="none" stroke="#34d399" strokeWidth="1" />
-            <path d="M -100 600 L 200 600 C 300 600 350 450 600 450" fill="none" stroke="#34d399" strokeWidth="1" />
-            <path d="M 600 400 C 800 400 850 250 950 250 L 1300 250" fill="none" stroke="#34d399" strokeWidth="1" />
-            <path d="M 600 500 C 850 500 900 650 1000 650 L 1300 650" fill="none" stroke="#34d399" strokeWidth="1" />
+            <path d="M 0 300 C 150 300 250 150 400 150" fill="none" stroke="#34d399" strokeWidth="1" />
+            <path d="M 0 500 C 150 500 250 650 400 650" fill="none" stroke="#34d399" strokeWidth="1" />
+            <path d="M 1200 300 C 1050 300 950 150 800 150" fill="none" stroke="#34d399" strokeWidth="1" />
+            <path d="M 1200 500 C 1050 500 950 650 800 650" fill="none" stroke="#34d399" strokeWidth="1" />
           </svg>
 
           {/* The animated nodes */}
