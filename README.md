@@ -35,7 +35,7 @@ This happens constantly. OpenAI updated `gpt-4o` at least 6 times in 2024 withou
 
 <!-- USER: ADD YOUR LIVE DEMO LINK AND SCREENSHOTS BELOW THIS LINE -->
 
-🔗 **[Live Demo: vigil.live](https://vigil.live)** *(Coming soon)*
+🔗 **[Live Demo: vigil.live]([https://vigil.live](https://vigil-nu-seven.vercel.app/))** *(Coming soon)*
 
 <div align="center">
   <img src="docs/screenshots/dashboard.png" alt="Vigil Dashboard" width="800" />
