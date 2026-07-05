@@ -1,5 +1,6 @@
 import { fetchModels } from '@/lib/api-server';
 import Link from 'next/link';
+import ProviderLogo from '@/components/ProviderLogo';
 
 export const dynamic = 'force-dynamic';
 
@@ -91,19 +92,11 @@ export default async function DashboardRootPage() {
                   {isAll ? (
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                   ) : (
-                    <>
-                      <img 
-                        src={`https://cdn.simpleicons.org/${provider === 'mistral' ? 'scipy' : provider}/f5f5f5`} 
-                        alt={`${display.name} logo`}
-                        className="w-6 h-6 opacity-90 transition-opacity group-hover:opacity-100"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          const nextEl = e.currentTarget.nextElementSibling as HTMLElement;
-                          if (nextEl) nextEl.style.display = 'block';
-                        }}
-                      />
-                      <span className="font-bold text-sm tracking-wider" style={{ display: 'none' }}>{display.short}</span>
-                    </>
+                    <ProviderLogo 
+                      provider={provider} 
+                      displayName={display.name} 
+                      displayShort={display.short} 
+                    />
                   )}
                 </div>
                 
