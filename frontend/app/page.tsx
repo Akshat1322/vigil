@@ -71,7 +71,7 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#f5f5f5] tracking-tight mb-6 max-w-4xl" style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)' }}>
-            One-click for <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#ffffff] to-[#737373]">Model Defense</span>
+            Monitor LLM <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#ffffff] to-[#737373]">Behavioral Drift</span>
           </h1>
 
           <p className="text-[#9ca3af] text-lg md:text-xl max-w-2xl mb-10 leading-relaxed font-light">
