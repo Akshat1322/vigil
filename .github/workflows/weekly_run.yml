@@ -43,6 +43,8 @@ jobs:
           REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
           NEXTJS_URL: ${{ secrets.NEXTJS_URL }}
           API_URL: ${{ secrets.API_URL }}
+
+
           
       - name: Commit updated database
         run: |
