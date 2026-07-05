@@ -159,7 +159,16 @@ export default async function HomePage() {
   const totalPrompts = models.reduce((acc: number, m: ModelSummary) => acc + m.total_prompts, 0);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-8 pb-16">
+    <div className="min-h-screen bg-black pt-24 pb-16 relative overflow-hidden font-sans">
+      {/* Background Fluid Aurora & Stars */}
+      <div className="orb-container bg-transparent">
+        <div className="stars"></div>
+        <div className="aurora-blob aurora-1"></div>
+        <div className="aurora-blob aurora-2"></div>
+        <div className="aurora-blob aurora-3 opacity-20"></div>
+      </div>
+
+      <div className="relative z-10">
       {/* Page header */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-0">
         <div>
@@ -219,7 +228,7 @@ export default async function HomePage() {
           const statusColor = statusConfig.color;
           
           return (
-            <Link key={model.model} href={`/models/${encodeURIComponent(model.model)}`} className="block relative card-grid-texture border border-[#1c1c1c] rounded-[8px] overflow-hidden transition-all hover:border-[#2a2a2a]">
+            <Link key={model.model} href={`/models/${encodeURIComponent(model.model)}`} className="block relative card-grid-texture border border-[#2a2a2a] bg-[#111111]/60 backdrop-blur-xl shadow-xl rounded-xl overflow-hidden transition-all hover:border-[#404040] hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
               <div 
                 className="absolute left-0 top-0 bottom-0 w-[3px]"
                 style={{ background: statusColor, borderRadius: '3px 0 0 3px' }}
@@ -333,6 +342,7 @@ export default async function HomePage() {
         {models.length === 0 && COMING_SOON_MODELS.length === 0 && (
           <div className="text-[#737373] text-center py-10 col-span-full">No models found.</div>
         )}
+      </div>
       </div>
     </div>
   );

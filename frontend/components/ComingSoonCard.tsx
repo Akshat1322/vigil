@@ -13,19 +13,7 @@ interface ComingSoonCardProps {
 
 export default function ComingSoonCard({ provider, model, fakeData }: ComingSoonCardProps) {
   return (
-    <div style={{
-      position: 'relative',
-      background: '#111111',
-      border: '1px solid #1c1c1c',
-      borderRadius: '8px',
-      overflow: 'hidden',
-      minHeight: '280px',
-      backgroundImage: `
-        linear-gradient(rgba(52,211,153,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(52,211,153,0.025) 1px, transparent 1px)
-      `,
-      backgroundSize: '24px 24px',
-    }}>
+    <div className="relative card-grid-texture border border-[#2a2a2a] bg-[#111111]/60 backdrop-blur-xl shadow-xl rounded-xl overflow-hidden min-h-[280px]">
 
       {/* LEFT ACCENT BAR — gray for coming soon */}
       <div style={{
