@@ -56,10 +56,10 @@ export default async function TechnicalReportPage({ params }: { params: Promise<
       {/* Header Card */}
       <div className="card-grid-texture border border-[#1c1c1c] rounded-lg p-6 max-w-5xl mx-auto mb-6 flex justify-between items-start">
         <div>
-          <div className="text-xs text-[#737373] uppercase tracking-widest font-['Space_Grotesk'] mb-1">
+          <div className="text-xs text-[#737373] uppercase tracking-widest font-sans font-bold mb-1">
             Technical Report
           </div>
-          <h1 className="text-2xl font-semibold text-[#f5f5f5] font-['Space_Grotesk']">
+          <h1 className="text-2xl font-semibold text-[#f5f5f5] font-sans font-bold">
             {report.model}
           </h1>
           <div className="text-xs text-[#737373] mt-2">
@@ -67,10 +67,10 @@ export default async function TechnicalReportPage({ params }: { params: Promise<
           </div>
         </div>
         <div className="text-right">
-          <div className="text-xs text-[#737373] uppercase tracking-widest font-['Space_Grotesk'] mb-1">
+          <div className="text-xs text-[#737373] uppercase tracking-widest font-sans font-bold mb-1">
             OVERALL BSI SCORE
           </div>
-          <div className={`text-4xl font-bold font-['Space_Grotesk'] ${bsiColor}`}>
+          <div className={`text-4xl font-bold font-sans font-bold ${bsiColor}`}>
             {report.bsi.toFixed(1)}
           </div>
           <div className="mt-2 text-xs text-[#737373]">
@@ -110,7 +110,7 @@ export default async function TechnicalReportPage({ params }: { params: Promise<
 
                 return (
                   <tr key={`${detail.prompt_id}-${detail.category}-${idx}`} className="hover:bg-[#161616] transition-colors">
-                    <td className="whitespace-nowrap py-3.5 px-4 text-xs font-['Space_Grotesk'] text-[#34d399]">
+                    <td className="whitespace-nowrap py-3.5 px-4 text-xs font-sans font-bold text-[#34d399]">
                       {detail.prompt_id}
                     </td>
                     <td className="whitespace-nowrap py-3.5 px-4 text-sm text-[#737373]">

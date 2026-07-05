@@ -92,10 +92,10 @@ export default async function ModelDetailPage({ params }: { params: Promise<{ id
       >
         <div className="flex justify-between items-start">
           <div>
-            <div className="text-xs uppercase tracking-widest font-['Space_Grotesk']" style={{ color: statusColor, opacity: 0.7 }}>
+            <div className="text-xs uppercase tracking-widest font-sans font-bold" style={{ color: statusColor, opacity: 0.7 }}>
               {provider}
             </div>
-            <h1 className="text-2xl font-semibold text-[#f5f5f5] mt-1 font-['Space_Grotesk']">{modelName}</h1>
+            <h1 className="text-2xl font-semibold text-[#f5f5f5] mt-1 font-sans font-bold">{modelName}</h1>
             <div className="text-xs text-[#737373] mt-2">
               Last checked {timeAgo(model.last_run_timestamp)} &middot; {formatDateFull(model.last_run_timestamp)}
             </div>
@@ -105,7 +105,7 @@ export default async function ModelDetailPage({ params }: { params: Promise<{ id
               <div className={`w-[6px] h-[6px] rounded-full ${model.drifted_count > 0 ? 'animate-pulse' : ''}`} style={{ backgroundColor: statusColor }}></div>
               {statusConfig.label}
             </div>
-            <div className="text-4xl font-bold font-['Space_Grotesk']" style={{ color: statusColor }}>
+            <div className="text-4xl font-bold font-sans font-bold" style={{ color: statusColor }}>
               {model.bsi.toFixed(1)}
             </div>
             <div className="text-xs text-[#737373] mt-1">
