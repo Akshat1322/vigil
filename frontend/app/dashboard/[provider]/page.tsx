@@ -252,7 +252,7 @@ export default async function ProviderPage({ params }: { params: Promise<{ provi
           const statusColor = statusConfig.color;
           
           return (
-            <Link key={model.model} href={`/models/${encodeURIComponent(model.model)}`} className="block relative card-grid-texture border border-[#2a2a2a] bg-[#111111]/60 backdrop-blur-xl shadow-xl rounded-xl overflow-hidden transition-all hover:border-[#404040] hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
+            <div key={model.model} className="block relative card-grid-texture border border-[#2a2a2a] bg-[#111111]/60 backdrop-blur-xl shadow-xl rounded-xl overflow-hidden transition-all hover:border-[#404040] hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
               <div 
                 className="absolute left-0 top-0 bottom-0 w-[3px]"
                 style={{ background: statusColor, borderRadius: '3px 0 0 3px' }}
@@ -348,8 +348,25 @@ export default async function ProviderPage({ params }: { params: Promise<{ provi
                     )}
                   </div>
                 </div>
+                </div>
+
+                {/* Footer Buttons */}
+                <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-[#1c1c1c]">
+                  <Link 
+                    href={`/models/${encodeURIComponent(model.model)}`}
+                    className="py-2 px-2 text-center text-[0.7rem] font-medium tracking-wide bg-[#1a1a1a] border border-[#2a2a2a] hover:bg-[#2a2a2a] hover:border-[#404040] text-[#f5f5f5] rounded-lg transition-all"
+                  >
+                    View more info
+                  </Link>
+                  <Link 
+                    href={`/reports/${encodeURIComponent(model.model)}`}
+                    className="py-2 px-2 text-center text-[0.7rem] font-medium tracking-wide bg-[#1a1a1a] border border-[#2a2a2a] hover:bg-[#2a2a2a] hover:border-[#404040] text-[#f5f5f5] rounded-lg transition-all"
+                  >
+                    View technical report
+                  </Link>
+                </div>
               </div>
-            </Link>
+            </div>
           );
         })}
 
