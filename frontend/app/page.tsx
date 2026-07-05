@@ -58,8 +58,7 @@ export default function Home() {
         <section className="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 md:px-6 pt-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1c1c1c] bg-[#111111]/80 backdrop-blur-md mb-8">
             <div className="w-2 h-2 rounded-full bg-[#34d399] animate-pulse"></div>
-            <span className="text-xs text-[#d1d5db] font-medium tracking-wide">Automated AI Model Defense</span>
-            <span className="text-[#737373] ml-1">→</span>
+            <span className="text-xs text-[#d1d5db] font-medium tracking-wide">Continuous API Drift Detection</span>
           </div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#f5f5f5] tracking-tight mb-6 max-w-4xl" style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)' }}>
@@ -74,28 +73,28 @@ export default function Home() {
              <Link href="/dashboard" className="px-8 py-3 rounded-full bg-[#111111] border border-[#2a2a2a] text-[#f5f5f5] text-sm font-medium hover:bg-[#1a1a1a] hover:border-[#404040] transition-all flex items-center gap-2">
                Open App <span className="text-[#737373]">↗</span>
              </Link>
-             <button className="px-8 py-3 rounded-full bg-[#f5f5f5] text-[#000] text-sm font-medium hover:bg-[#e5e5e5] transition-all">
-               Discover More
-             </button>
           </div>
         </section>
 
         {/* Bottom UI Elements */}
-        <div className="absolute bottom-6 w-full px-6 md:px-10 flex justify-between items-end z-20 pointer-events-none">
-          <div className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded-full border border-[#2a2a2a] bg-[#111111]/80 backdrop-blur-md flex items-center justify-center text-[#f5f5f5] text-sm">
-               ↓
-             </div>
-             <span className="text-xs text-[#737373] font-medium tracking-wide">01/03 . Scroll down</span>
+        <div className="absolute bottom-6 w-full px-6 md:px-10 flex justify-between items-end z-20 pointer-events-auto">
+          {/* Bottom Left: Vigil & Copyright */}
+          <div className="flex flex-col gap-1 text-left">
+             <span className="text-sm text-[#f5f5f5] font-semibold tracking-wide">Vigil</span>
+             <span className="text-xs text-[#737373] font-medium tracking-wide">© 2026 Vigil. Open source.</span>
           </div>
           
-          <div className="text-right flex flex-col items-end gap-3 hidden sm:flex">
-             <span className="text-[#a1a1a1] text-xs font-medium tracking-wide">Monitoring horizons</span>
-             <div className="flex gap-2">
-               <div className="w-6 h-1 bg-[#f5f5f5] rounded-full"></div>
-               <div className="w-6 h-1 bg-[#1c1c1c] rounded-full"></div>
-               <div className="w-6 h-1 bg-[#1c1c1c] rounded-full"></div>
-             </div>
+          {/* Bottom Right: Social Logos */}
+          <div className="text-right flex items-center gap-4 hidden sm:flex">
+             <a href="#" className="text-[#737373] hover:text-[#f5f5f5] transition-colors" aria-label="X">
+               <svg viewBox="0 0 24 24" className="w-4 h-4"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor"/></svg>
+             </a>
+             <a href="#" className="text-[#737373] hover:text-[#f5f5f5] transition-colors" aria-label="LinkedIn">
+               <svg viewBox="0 0 24 24" className="w-4 h-4"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="currentColor"/></svg>
+             </a>
+             <a href="#" className="text-[#737373] hover:text-[#f5f5f5] transition-colors" aria-label="Hashnode">
+               <svg viewBox="0 0 24 24" className="w-4 h-4"><path d="M22.351 8.019l-6.37-6.37a5.63 5.63 0 0 0-7.962 0l-6.37 6.37a5.63 5.63 0 0 0 0 7.962l6.37 6.37a5.63 5.63 0 0 0 7.962 0l6.37-6.37a5.63 5.63 0 0 0 0-7.962zM12 15.953a3.953 3.953 0 1 1 0-7.906 3.953 3.953 0 0 1 0 7.906z" fill="currentColor"/></svg>
+             </a>
           </div>
         </div>
 

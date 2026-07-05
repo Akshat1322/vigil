@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 type ModalState = 'features' | 'how-it-works' | null;
 
 export default function Navbar() {
   const [activeModal, setActiveModal] = useState<ModalState>(null);
+  const pathname = usePathname();
 
   // Close modal on escape key
   useEffect(() => {
@@ -36,8 +38,9 @@ export default function Navbar() {
 
         {/* Center: Floating Pill Navbar */}
         <nav className="pointer-events-auto hidden md:flex items-center gap-8 bg-[#111111]/50 backdrop-blur-lg border border-[#2a2a2a] rounded-full px-8 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-          <Link href="/" className="text-xs font-medium text-[#f5f5f5] hover:text-[#34d399] transition-colors">Home</Link>
-          <Link href="/dashboard" className="text-xs font-medium text-[#a1a1a1] hover:text-[#f5f5f5] transition-colors">Dashboard</Link>
+          {pathname === '/dashboard' && (
+            <Link href="/" className="text-xs font-medium text-[#f5f5f5] hover:text-[#34d399] transition-colors">Home</Link>
+          )}
           <button 
             onMouseEnter={() => setActiveModal('features')}
             onClick={() => setActiveModal(activeModal === 'features' ? null : 'features')}
