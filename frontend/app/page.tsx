@@ -14,47 +14,44 @@ export default function Home() {
           <div className="orb orb-2"></div>
         </div>
 
-        {/* Floating Animated Models (Nodes) */}
-        <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden hidden md:block">
-           {/* GPT-4o Node (Slides right) */}
-           <div className="absolute top-[35%] left-0 flex items-center gap-3" style={{ animation: 'slideInRight 22s linear infinite' }}>
-             <div className="w-16 h-[1px] bg-gradient-to-r from-transparent to-[#34d399]/40"></div>
-             <div className="flex flex-col items-center">
-                <div className="w-10 h-10 rounded-full bg-[#111111] border border-[#1c1c1c] flex items-center justify-center shadow-[0_0_20px_rgba(52,211,153,0.15)] relative">
-                  <div className="absolute inset-0 rounded-full border border-[#34d399]/30 blur-[2px]"></div>
-                  <span className="text-[#34d399] font-bold text-sm tracking-tighter">OAI</span>
-                </div>
-                <span className="text-sm text-[#f5f5f5] mt-3 font-medium">gpt-4o</span>
-                <span className="text-[0.65rem] text-[#737373] mt-0.5 tracking-widest uppercase">94.0 BSI</span>
-             </div>
-             <div className="w-48 h-[1px] bg-gradient-to-l from-transparent to-[#34d399]/40 transform -rotate-12 origin-left ml-2"></div>
-           </div>
+        {/* Floating Animated Models (Fixed SVG Paths) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[800px] pointer-events-none z-10 hidden md:block">
+          
+          {/* The static SVG paths (curves) */}
+          <svg viewBox="0 0 1200 800" className="absolute inset-0 w-full h-full opacity-40">
+            <path d="M -100 200 L 250 200 C 350 200 400 350 600 350" fill="none" stroke="#34d399" strokeWidth="1" />
+            <path d="M -100 600 L 200 600 C 300 600 350 450 600 450" fill="none" stroke="#34d399" strokeWidth="1" />
+            <path d="M 600 400 C 800 400 850 250 950 250 L 1300 250" fill="none" stroke="#34d399" strokeWidth="1" />
+            <path d="M 600 500 C 850 500 900 650 1000 650 L 1300 650" fill="none" stroke="#34d399" strokeWidth="1" />
+          </svg>
 
-           {/* Claude 3.5 Node (Slides left) */}
-           <div className="absolute top-[60%] right-0 flex items-center gap-3 flex-row-reverse" style={{ animation: 'slideInLeft 25s linear infinite 8s', opacity: 0 }}>
-             <div className="w-16 h-[1px] bg-gradient-to-l from-transparent to-[#34d399]/40"></div>
-             <div className="flex flex-col items-center">
-                <div className="w-10 h-10 rounded-full bg-[#111111] border border-[#1c1c1c] flex items-center justify-center shadow-[0_0_20px_rgba(52,211,153,0.15)] relative">
-                  <div className="absolute inset-0 rounded-full border border-[#34d399]/30 blur-[2px]"></div>
-                  <span className="text-[#34d399] font-bold text-sm tracking-tighter">ANT</span>
+          {/* The animated nodes */}
+          {[
+            { id: 1, name: 'gpt-4o', org: 'OAI', bsi: '94.0', path: 'node-path-1', delay: '0s' },
+            { id: 2, name: 'gpt-4-turbo', org: 'OAI', bsi: '89.5', path: 'node-path-1', delay: '-6.6s' },
+            { id: 3, name: 'mixtral-8x7b', org: 'MST', bsi: '91.0', path: 'node-path-1', delay: '-13.3s' },
+            { id: 4, name: 'claude-3.5-sonnet', org: 'ANT', bsi: '98.0', path: 'node-path-2', delay: '0s' },
+            { id: 5, name: 'claude-3-opus', org: 'ANT', bsi: '95.0', path: 'node-path-2', delay: '-11s' },
+            { id: 6, name: 'gemini-1.5-pro', org: 'GGL', bsi: '93.0', path: 'node-path-3', delay: '0s' },
+            { id: 7, name: 'gemini-1.5-flash', org: 'GGL', bsi: '97.0', path: 'node-path-3', delay: '-12s' },
+            { id: 8, name: 'llama-3.1-70b', org: 'META', bsi: '90.0', path: 'node-path-4', delay: '0s' },
+            { id: 9, name: 'mistral-large', org: 'MST', bsi: '92.0', path: 'node-path-4', delay: '-8.6s' },
+            { id: 10, name: 'cohere-command-r', org: 'COH', bsi: '88.0', path: 'node-path-4', delay: '-17.3s' },
+          ].map(node => (
+             <div key={node.id} className={`${node.path} flex flex-col items-center justify-center w-[60px] h-[60px]`} style={{ animationDelay: node.delay }}>
+                <div className="absolute top-[60px] whitespace-nowrap text-left left-[30px] md:left-[10px]">
+                   <div className="flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 bg-[#f5f5f5] rounded-full shadow-[0_0_5px_rgba(255,255,255,0.8)]"></div>
+                      <span className="text-[#f5f5f5] font-medium text-sm drop-shadow-md">{node.name}</span>
+                   </div>
+                   <div className="text-[#737373] text-[0.65rem] ml-3 tracking-wider uppercase mt-0.5">{node.bsi} BSI</div>
                 </div>
-                <span className="text-sm text-[#f5f5f5] mt-3 font-medium">claude-3.5</span>
-                <span className="text-[0.65rem] text-[#737373] mt-0.5 tracking-widest uppercase">98.0 BSI</span>
-             </div>
-             <div className="w-48 h-[1px] bg-gradient-to-r from-transparent to-[#34d399]/40 transform rotate-12 origin-right mr-2"></div>
-           </div>
-
-           {/* Gemini Node (Slides right, higher up) */}
-           <div className="absolute top-[15%] left-0 flex items-center gap-3" style={{ animation: 'slideInRight 28s linear infinite 14s', opacity: 0 }}>
-             <div className="w-10 h-[1px] bg-gradient-to-r from-transparent to-[#34d399]/40"></div>
-             <div className="flex flex-col items-center">
-                <div className="w-8 h-8 rounded-full bg-[#111111] border border-[#1c1c1c] flex items-center justify-center relative">
-                  <span className="text-[#34d399] font-bold text-xs tracking-tighter">GGL</span>
+                <div className="w-10 h-10 rounded-full bg-[#111111] border border-[#2a2a2a] flex items-center justify-center relative shadow-[0_0_20px_rgba(52,211,153,0.2)]">
+                   <div className="absolute inset-0 rounded-full border border-[#34d399]/40 blur-[1px]"></div>
+                   <span className="text-[#34d399] font-bold text-xs tracking-tighter">{node.org}</span>
                 </div>
-                <span className="text-xs text-[#f5f5f5] mt-2 font-medium">gemini-1.5</span>
              </div>
-             <div className="w-32 h-[1px] bg-gradient-to-l from-transparent to-[#34d399]/40 transform -rotate-[25deg] origin-left ml-2"></div>
-           </div>
+          ))}
         </div>
 
         {/* Central Content */}

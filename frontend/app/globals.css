@@ -107,19 +107,51 @@ body {
   to { transform: translateX(calc(-100% - 3rem)); }
 }
 
-/* Floating Node Animations */
-@keyframes slideInRight {
-  0% { transform: translateX(-50vw); opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateX(50vw); opacity: 0; }
+/* Floating Node Animations (Offset Path) */
+@keyframes moveAlongPath {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
 }
 
-@keyframes slideInLeft {
-  0% { transform: translateX(50vw); opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateX(-50vw); opacity: 0; }
+@keyframes moveAlongPathReverse {
+  0% { offset-distance: 100%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 0%; opacity: 0; }
+}
+
+.node-path-1, .node-path-2, .node-path-3, .node-path-4 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  offset-rotate: 0deg;
+  animation: moveAlongPath linear infinite;
+  opacity: 0;
+}
+
+.node-path-1 {
+  offset-path: path("M -100 200 L 250 200 C 350 200 400 350 600 350");
+  animation-duration: 20s;
+}
+
+.node-path-2 {
+  offset-path: path("M -100 600 L 200 600 C 300 600 350 450 600 450");
+  animation-duration: 22s;
+}
+
+.node-path-3 {
+  /* Using Reverse so it comes from right to left */
+  offset-path: path("M 600 400 C 800 400 850 250 950 250 L 1300 250");
+  animation-name: moveAlongPathReverse;
+  animation-duration: 24s;
+}
+
+.node-path-4 {
+  offset-path: path("M 600 500 C 850 500 900 650 1000 650 L 1300 650");
+  animation-name: moveAlongPathReverse;
+  animation-duration: 26s;
 }
 
 /* Blinking cursor */
