@@ -7,22 +7,29 @@ export default function Home() {
       {/* Massive rounded inner container */}
       <main className="flex-grow rounded-[2rem] border border-[#1c1c1c] bg-[#050505] relative overflow-hidden flex flex-col min-h-[calc(100vh-8rem)]">
         
-        {/* Background Orbs & Stars */}
-        <div className="orb-container">
+        {/* Background Fluid Aurora & Stars */}
+        <div className="orb-container bg-[#030303]">
           <div className="stars"></div>
-          <div className="orb orb-1"></div>
-          <div className="orb orb-2"></div>
+          <div className="aurora-blob aurora-1"></div>
+          <div className="aurora-blob aurora-2"></div>
+          <div className="aurora-blob aurora-3"></div>
         </div>
 
         {/* Floating Animated Models (Fixed SVG Paths) */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[800px] pointer-events-none z-10 hidden md:block">
           
           {/* The static SVG paths (curves) */}
-          <svg viewBox="0 0 1200 800" className="absolute inset-0 w-full h-full opacity-40">
-            <path d="M 0 300 C 150 300 250 150 400 150" fill="none" stroke="#34d399" strokeWidth="1" />
-            <path d="M 0 500 C 150 500 250 650 400 650" fill="none" stroke="#34d399" strokeWidth="1" />
-            <path d="M 1200 300 C 1050 300 950 150 800 150" fill="none" stroke="#34d399" strokeWidth="1" />
-            <path d="M 1200 500 C 1050 500 950 650 800 650" fill="none" stroke="#34d399" strokeWidth="1" />
+          <svg viewBox="0 0 1200 800" className="absolute inset-0 w-full h-full opacity-30">
+            <path d="M 0 300 C 150 300 250 150 400 150" fill="none" stroke="#0d9488" strokeWidth="1" />
+            <path d="M 0 500 C 150 500 250 650 400 650" fill="none" stroke="#0d9488" strokeWidth="1" />
+            <path d="M 1200 300 C 1050 300 950 150 800 150" fill="none" stroke="#0d9488" strokeWidth="1" />
+            <path d="M 1200 500 C 1050 500 950 650 800 650" fill="none" stroke="#0d9488" strokeWidth="1" />
+
+            {/* Pulsing Light Beams along the paths */}
+            <path d="M 0 300 C 150 300 250 150 400 150" fill="none" strokeWidth="1.5" className="light-beam" style={{ animationDuration: '8s', strokeDasharray: '4 600' }} />
+            <path d="M 0 500 C 150 500 250 650 400 650" fill="none" strokeWidth="1.5" className="light-beam" style={{ animationDuration: '10s', strokeDasharray: '4 600', animationDelay: '2s' }} />
+            <path d="M 1200 300 C 1050 300 950 150 800 150" fill="none" strokeWidth="1.5" className="light-beam" style={{ animationDuration: '9s', strokeDasharray: '4 600', animationDirection: 'reverse' }} />
+            <path d="M 1200 500 C 1050 500 950 650 800 650" fill="none" strokeWidth="1.5" className="light-beam" style={{ animationDuration: '11s', strokeDasharray: '4 600', animationDirection: 'reverse', animationDelay: '3s' }} />
           </svg>
 
           {/* The animated nodes */}
@@ -38,16 +45,17 @@ export default function Home() {
             { id: 9, name: 'mistral-large', org: 'MST', bsi: '92.0', path: 'node-path-4', delay: '-8.6s' },
             { id: 10, name: 'cohere-command-r', org: 'COH', bsi: '88.0', path: 'node-path-4', delay: '-17.3s' },
           ].map(node => (
-             <div key={node.id} className={`${node.path} flex flex-col items-center justify-center w-[60px] h-[60px]`} style={{ animationDelay: node.delay }}>
-                <div className="absolute top-[60px] whitespace-nowrap text-left left-[30px] md:left-[10px]">
+             <div key={node.id} className={`${node.path} flex flex-col items-center justify-center w-[60px] h-[60px] group cursor-pointer pointer-events-auto`} style={{ animationDelay: node.delay }}>
+                <div className="absolute top-[60px] whitespace-nowrap text-left left-[30px] md:left-[10px] transition-transform duration-300 group-hover:translate-x-2">
                    <div className="flex items-center gap-1.5">
-                      <div className="w-1.5 h-1.5 bg-[#f5f5f5] rounded-full shadow-[0_0_5px_rgba(255,255,255,0.8)]"></div>
-                      <span className="text-[#f5f5f5] font-medium text-sm drop-shadow-md">{node.name}</span>
+                      <div className="w-1.5 h-1.5 bg-[#f5f5f5] rounded-full shadow-[0_0_5px_rgba(255,255,255,0.8)] group-hover:bg-[#34d399] transition-colors"></div>
+                      <span className="text-[#f5f5f5] font-medium text-sm drop-shadow-md group-hover:text-[#34d399] transition-colors">{node.name}</span>
                    </div>
                    <div className="text-[#737373] text-[0.65rem] ml-3 tracking-wider uppercase mt-0.5">{node.bsi} BSI</div>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-[#111111] border border-[#2a2a2a] flex items-center justify-center relative shadow-[0_0_20px_rgba(52,211,153,0.2)]">
-                   <div className="absolute inset-0 rounded-full border border-[#34d399]/40 blur-[1px]"></div>
+                <div className="w-10 h-10 rounded-full bg-[#111111] border border-[#2a2a2a] flex items-center justify-center relative shadow-[0_0_20px_rgba(13,148,136,0.1)] transition-all duration-300 group-hover:scale-110 group-hover:border-[#34d399] group-hover:shadow-[0_0_30px_rgba(52,211,153,0.4)]">
+                   <div className="absolute inset-0 rounded-full border border-[#34d399] node-ripple group-hover:opacity-100"></div>
+                   <div className="absolute inset-0 rounded-full border border-[#0d9488]/40 blur-[1px]"></div>
                    <span className="text-[#34d399] font-bold text-xs tracking-tighter">{node.org}</span>
                 </div>
              </div>
