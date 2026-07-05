@@ -254,3 +254,38 @@ body {
   -webkit-text-fill-color: transparent;
   animation: shimmer 3s ease-in-out infinite;
 }
+
+/* Matrix Loader Animations */
+@keyframes rowOpacity {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes pointColor {
+  0%, 100% { 
+    background: #111111; 
+    filter: blur(1px); 
+  }
+  50% { 
+    background: #34d399; 
+    filter: blur(2px); 
+    box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+  }
+}
+
+.matrix-row {
+  animation-name: rowOpacity;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.matrix-point {
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  margin: 0 0.35em 0.6em;
+  display: inline-block;
+  animation-name: pointColor;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
