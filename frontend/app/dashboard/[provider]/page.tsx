@@ -348,7 +348,6 @@ export default async function ProviderPage({ params }: { params: Promise<{ provi
                     )}
                   </div>
                 </div>
-                </div>
 
                 {/* Footer Buttons */}
                 <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-[#1c1c1c]">
