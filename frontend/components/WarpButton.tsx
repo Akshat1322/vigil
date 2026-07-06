@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 export default function WarpButton({ href, children }: { href: string, children: React.ReactNode }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLButtonElement>(null);
+  const placeholderRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
   const router = useRouter();
   const isGoingRef = useRef(false);
@@ -18,10 +19,10 @@ export default function WarpButton({ href, children }: { href: string, children:
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const NUM_PARTICLES = 50;
+    const NUM_PARTICLES = 100; // Increased for fullscreen
     const MAX_Z = 2;
-    const MAX_R = 2;
-    const Z_SPD = 2;
+    const MAX_R = 2.5;
+    const Z_SPD = 3; // Faster warp
     const PARTICLES: Particle[] = [];
     
     let W = container.offsetWidth;
@@ -50,7 +51,7 @@ export default function WarpButton({ href, children }: { href: string, children:
         this.pos = new Vector(x, y, z);
         this.vel = new Vector(0, 0, -Z_SPD);
         this.vel.scale(0.01);
-        this.fill = "rgba(255,255,255,0.3)";
+        this.fill = "rgba(255,255,255,0.4)";
         this.stroke = this.fill;
       }
       update() { this.pos.add(this.vel); }
@@ -97,7 +98,7 @@ export default function WarpButton({ href, children }: { href: string, children:
       animationFrameId = requestAnimationFrame(loop);
       if (ctx) {
         if (isGoingRef.current) {
-          ctx.fillStyle = "rgba(0,0,0,0.15)";
+          ctx.fillStyle = "rgba(0,0,0,0.2)";
           ctx.fillRect(0, 0, W, H);
           render();
         } else {
@@ -106,8 +107,9 @@ export default function WarpButton({ href, children }: { href: string, children:
       }
     }
 
-    // Handle resize
+    // Handle dynamic resize for when it expands to fullscreen
     const handleResize = () => {
+      if (!container) return;
       W = container.offsetWidth;
       H = container.offsetHeight;
       canvas.width = W;
@@ -115,52 +117,101 @@ export default function WarpButton({ href, children }: { href: string, children:
       XO = W / 2;
       YO = H / 2;
     };
-    window.addEventListener('resize', handleResize);
+    
+    const resizeObserver = new ResizeObserver(() => handleResize());
+    resizeObserver.observe(container);
 
     createParticles();
     loop();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
     };
   }, []);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!isGoingRef.current) {
+    if (!isGoingRef.current && containerRef.current && placeholderRef.current) {
       isGoingRef.current = true;
       setIsActive(true);
       
-      // Navigate after a short delay so the user sees the warp effect!
+      const btn = containerRef.current;
+      const placeholder = placeholderRef.current;
+      const rect = btn.getBoundingClientRect();
+      
+      // Set placeholder dimensions to maintain layout
+      placeholder.style.width = `${rect.width}px`;
+      placeholder.style.height = `${rect.height}px`;
+
+      // Flip button to fixed position over its exact current spot
+      btn.style.position = 'fixed';
+      btn.style.top = `${rect.top}px`;
+      btn.style.left = `${rect.left}px`;
+      btn.style.width = `${rect.width}px`;
+      btn.style.height = `${rect.height}px`;
+      btn.style.margin = '0';
+      btn.style.zIndex = '9999';
+
+      // Force reflow
+      void btn.offsetHeight;
+
+      // Animate to cover the whole screen
+      btn.style.transition = 'all 1s cubic-bezier(0.7, 0, 0.3, 1)';
+      btn.style.top = '0px';
+      btn.style.left = '0px';
+      btn.style.width = '100vw';
+      btn.style.height = '100vh';
+      btn.style.borderRadius = '0px';
+      
+      // Navigate after the animation finishes
       setTimeout(() => {
         router.push(href);
-        // Reset state after navigation
+        // Reset state slightly after routing
         setTimeout(() => {
           isGoingRef.current = false;
           setIsActive(false);
-        }, 500);
-      }, 600);
+          // Restore inline styles
+          btn.style.position = '';
+          btn.style.top = '';
+          btn.style.left = '';
+          btn.style.width = '';
+          btn.style.height = '';
+          btn.style.margin = '';
+          btn.style.zIndex = '';
+          btn.style.transition = '';
+          btn.style.borderRadius = '';
+          placeholder.style.width = '0px';
+          placeholder.style.height = '0px';
+        }, 800);
+      }, 1000);
     }
   };
 
   return (
-    <button 
-      ref={containerRef}
-      onClick={handleClick}
-      className={`relative border cursor-pointer px-8 py-3 rounded-full overflow-hidden transition-colors duration-300 ${
-        isActive 
-          ? 'bg-black border-white' 
-          : 'bg-[#111111] border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#404040]'
-      }`}
-    >
-      <span className={`relative z-10 flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${isActive ? 'text-white' : 'text-[#f5f5f5]'}`}>
-        {children}
-      </span>
-      <canvas 
-        ref={canvasRef} 
-        className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none rounded-full"
-      />
-    </button>
+    <>
+      <div ref={placeholderRef} className="hidden-placeholder" style={{ width: 0, height: 0 }} />
+      <button 
+        ref={containerRef}
+        onClick={handleClick}
+        className={`relative border cursor-pointer overflow-hidden flex items-center justify-center transition-colors duration-300 ${
+          isActive 
+            ? 'bg-black border-transparent' 
+            : 'px-8 py-3 rounded-full bg-[#111111] border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#404040]'
+        }`}
+      >
+        <span 
+          className={`relative z-10 flex items-center gap-2 text-sm font-medium transition-all duration-700 ${
+            isActive ? 'opacity-0 scale-150' : 'text-[#f5f5f5] opacity-100 scale-100'
+          }`}
+        >
+          {children}
+        </span>
+        <canvas 
+          ref={canvasRef} 
+          className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
+        />
+      </button>
+    </>
   );
 }
