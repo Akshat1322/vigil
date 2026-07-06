@@ -288,32 +288,3 @@ body {
   animation-timing-function: ease-in-out;
 }
 
-/* Quantum Gravity Float Effect */
-.implode-target {
-  transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045), filter 0.8s ease, opacity 0.6s ease;
-}
-
-.gravity-collapse {
-  transform: scale(0.3) rotate(15deg) translateY(-100px);
-  filter: blur(20px);
-  opacity: 0;
-}
-
-/* Shatter Assemble Animation for Dashboard */
-.shatter-assemble {
-  animation: shatterAssemble 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
-}
-
-@keyframes shatterAssemble {
-  0% {
-    opacity: 0;
-    transform: translateZ(500px) scale(3) rotate(-10deg);
-    filter: blur(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateZ(0) scale(1) rotate(0);
-    filter: blur(0);
-  }
-}

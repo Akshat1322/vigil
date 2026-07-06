@@ -12,32 +12,25 @@ export default function WarpButton({ href, children }: { href: string, children:
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let W = window.innerWidth;
-    let H = window.innerHeight;
+    const NUM_PARTICLES = 50;
+    const MAX_Z = 2;
+    const MAX_R = 2;
+    const Z_SPD = 2;
+    const PARTICLES: Particle[] = [];
+    
+    let W = container.offsetWidth;
+    let H = container.offsetHeight;
+    canvas.width = W;
+    canvas.height = H;
     let XO = W / 2;
     let YO = H / 2;
     let animationFrameId: number;
-
-    const NUM_PARTICLES = 150;
-    const MAX_Z = 2;
-    const MAX_R = 3;
-    const Z_SPD = 2;
-    
-    // Resize handler for full-screen overlay
-    const handleResize = () => {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      canvas.width = W;
-      canvas.height = H;
-      XO = W / 2;
-      YO = H / 2;
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
 
     class Vector {
       x: number; y: number; z: number;
@@ -56,15 +49,11 @@ export default function WarpButton({ href, children }: { href: string, children:
       constructor(x: number, y: number, z: number) {
         this.pos = new Vector(x, y, z);
         this.vel = new Vector(0, 0, -Z_SPD);
-        this.vel.scale(0.02);
-        this.fill = "rgba(255,255,255,0.7)";
+        this.vel.scale(0.01);
+        this.fill = "rgba(255,255,255,0.3)";
         this.stroke = this.fill;
       }
-
-      update() {
-        this.pos.add(this.vel);
-      }
-
+      update() { this.pos.add(this.vel); }
       render() {
         const PIXEL = to2d(this.pos);
         const X = PIXEL[0], Y = PIXEL[1];
@@ -90,40 +79,52 @@ export default function WarpButton({ href, children }: { href: string, children:
       return [PX + XO, PY + YO];
     }
 
-    const PARTICLES: Particle[] = [];
     const createParticles = () => {
-      PARTICLES.length = 0;
+      PARTICLES.length = 0; // Clear array
       for (let i = 0; i < NUM_PARTICLES; i++) {
         const X = Math.random() * W, Y = Math.random() * H, Z = Math.random() * MAX_Z;
         PARTICLES.push(new Particle(X, Y, Z));
       }
     };
-    
-    createParticles();
 
-    const renderTransitionLoop = () => {
-      if (!isGoingRef.current) return;
-      
-      // Motion blur trailing effect
-      ctx.fillStyle = 'rgba(5, 5, 8, 0.2)';
-      ctx.fillRect(0, 0, W, H);
-
+    function render() {
       for (let i = 0; i < PARTICLES.length; i++) {
         PARTICLES[i].render();
       }
-
-      animationFrameId = requestAnimationFrame(renderTransitionLoop);
-    };
-
-    if (isActive) {
-      renderTransitionLoop();
     }
+
+    function loop() {
+      animationFrameId = requestAnimationFrame(loop);
+      if (ctx) {
+        if (isGoingRef.current) {
+          ctx.fillStyle = "rgba(0,0,0,0.15)";
+          ctx.fillRect(0, 0, W, H);
+          render();
+        } else {
+          ctx.clearRect(0, 0, W, H);
+        }
+      }
+    }
+
+    // Handle resize
+    const handleResize = () => {
+      W = container.offsetWidth;
+      H = container.offsetHeight;
+      canvas.width = W;
+      canvas.height = H;
+      XO = W / 2;
+      YO = H / 2;
+    };
+    window.addEventListener('resize', handleResize);
+
+    createParticles();
+    loop();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
     };
-  }, [isActive]);
+  }, []);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -131,44 +132,35 @@ export default function WarpButton({ href, children }: { href: string, children:
       isGoingRef.current = true;
       setIsActive(true);
       
-      const targets = document.querySelectorAll('.black-hole-target');
-      targets.forEach((el) => {
-        el.classList.add('black-hole-suck');
-      });
-
+      // Navigate after a short delay so the user sees the warp effect!
       setTimeout(() => {
         router.push(href);
+        // Reset state after navigation
         setTimeout(() => {
           isGoingRef.current = false;
           setIsActive(false);
-          targets.forEach((el) => {
-            el.classList.remove('black-hole-suck');
-          });
-        }, 800);
-      }, 1600);
+        }, 500);
+      }, 600);
     }
   };
 
   return (
-    <>
-      <button 
-        ref={containerRef}
-        onClick={handleClick}
-        className={`relative z-10 px-8 py-3 font-medium rounded-full cursor-pointer overflow-hidden transition-all duration-300 ${
-          isActive 
-            ? 'opacity-0 scale-0' 
-            : 'bg-[#111111] border border-[#2a2a2a] text-[#f5f5f5] hover:bg-[#1a1a1a] hover:border-[#404040]'
-        }`}
-      >
-        <span className="flex items-center gap-2 text-sm tracking-wide">
-          {children}
-        </span>
-      </button>
-
+    <button 
+      ref={containerRef}
+      onClick={handleClick}
+      className={`relative border cursor-pointer px-8 py-3 rounded-full overflow-hidden transition-colors duration-300 ${
+        isActive 
+          ? 'bg-black border-white' 
+          : 'bg-[#111111] border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#404040]'
+      }`}
+    >
+      <span className={`relative z-10 flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${isActive ? 'text-white' : 'text-[#f5f5f5]'}`}>
+        {children}
+      </span>
       <canvas 
         ref={canvasRef} 
-        className={`fixed top-0 left-0 w-full h-full z-50 pointer-events-none transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+        className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none rounded-full"
       />
-    </>
+    </button>
   );
 }
