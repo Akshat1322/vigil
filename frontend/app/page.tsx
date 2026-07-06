@@ -6,7 +6,7 @@ export default function Home() {
     <div className="bg-black min-h-screen p-3 md:p-6 flex flex-col font-sans">
       
       {/* Massive rounded inner container */}
-      <main className="flex-grow rounded-[2rem] border border-[#1c1c1c] bg-[#050505] relative overflow-hidden flex flex-col min-h-[calc(100vh-8rem)]">
+      <main className="black-hole-target flex-grow rounded-[2rem] border border-[#1c1c1c] bg-[#050505] relative overflow-hidden flex flex-col min-h-[calc(100vh-8rem)]">
         
         {/* Background Fluid Aurora & Stars */}
         <div className="orb-container bg-[#030303]">
