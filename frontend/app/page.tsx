@@ -65,16 +65,16 @@ export default function Home() {
 
         {/* Central Content */}
         <section className="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 md:px-6 pt-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1c1c1c] bg-[#111111]/80 backdrop-blur-md mb-8">
+          <div className="implode-target inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1c1c1c] bg-[#111111]/80 backdrop-blur-md mb-8">
             <div className="w-2 h-2 rounded-full bg-[#34d399] animate-pulse"></div>
             <span className="text-xs text-[#d1d5db] font-medium tracking-wide">Continuous API Drift Detection</span>
           </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#f5f5f5] tracking-tight mb-6 max-w-4xl" style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)' }}>
+          <h1 className="implode-target text-5xl md:text-6xl lg:text-7xl font-bold text-[#f5f5f5] tracking-tight mb-6 max-w-4xl" style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)' }}>
             Monitor LLM <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#ffffff] to-[#737373]">Behavioral Drift</span>
           </h1>
 
-          <p className="text-[#9ca3af] text-lg md:text-xl max-w-2xl mb-10 leading-relaxed font-light">
+          <p className="implode-target text-[#9ca3af] text-lg md:text-xl max-w-2xl mb-10 leading-relaxed font-light">
             LLM providers update their models silently. Vigil runs 100 behavioral checks weekly and alerts you the moment something shifts.
           </p>
 
