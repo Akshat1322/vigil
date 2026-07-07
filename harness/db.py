@@ -47,6 +47,20 @@ class SemanticBaseline(SQLModel, table=True):
     established_date: datetime
 
 
+class PromptMutationResult(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    run_id: str
+    prompt_id: str
+    category: str
+    original_prompt: str
+    original_score: float
+    drift_direction: str
+    suggested_rewrite: str
+    reasoning: str
+    model: str
+    created_at: datetime = Field(default_factory=datetime.now)
+
+
 _engine = None
 
 
@@ -245,3 +259,52 @@ def get_semantic_baseline(prompt_id: str, model: str) -> Optional[SemanticBaseli
     engine = _get_engine()
     with Session(engine) as session:
         return session.get(SemanticBaseline, (prompt_id, model))
+
+
+def save_mutation(run_id: str, model: str, mutation) -> None:
+    engine = _get_engine()
+    row = PromptMutationResult(
+        run_id=run_id,
+        prompt_id=mutation.prompt_id,
+        category=mutation.category,
+        original_prompt=mutation.original_prompt,
+        original_score=mutation.original_score,
+        drift_direction=mutation.drift_direction,
+        suggested_rewrite=mutation.suggested_rewrite,
+        reasoning=mutation.reasoning,
+        model=model,
+    )
+    with Session(engine) as session:
+        session.add(row)
+        session.commit()
+
+
+def get_mutations_for_run(run_id: str) -> list[PromptMutationResult]:
+    engine = _get_engine()
+    with Session(engine) as session:
+        statement = select(PromptMutationResult).where(PromptMutationResult.run_id == run_id)
+        results = session.exec(statement).all()
+        return list(results)
+
+
+def get_latest_mutations(model: str) -> list[PromptMutationResult]:
+    # Gets the latest run_id for this model that has mutations
+    engine = _get_engine()
+    with Session(engine) as session:
+        # Find the most recent mutation for this model to get the run_id
+        statement = (
+            select(PromptMutationResult.run_id)
+            .where(PromptMutationResult.model == model)
+            .order_by(PromptMutationResult.created_at.desc())
+            .limit(1)
+        )
+        latest_run_id = session.exec(statement).first()
+        
+        if not latest_run_id:
+            return []
+            
+        # Return all mutations for that run_id
+        statement = select(PromptMutationResult).where(
+            PromptMutationResult.run_id == latest_run_id
+        )
+        return list(session.exec(statement).all())

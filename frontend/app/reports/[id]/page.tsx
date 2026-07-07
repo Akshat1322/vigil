@@ -18,6 +18,15 @@ interface DriftDetail {
   semantic_similarity: number | null;
 }
 
+interface MutationSuggestion {
+  prompt_id: string;
+  category: string;
+  original_prompt: string;
+  suggested_rewrite: string;
+  reasoning: string;
+  drift_direction: string;
+}
+
 interface RunReport {
   model: string;
   run_timestamp: string;
@@ -26,6 +35,7 @@ interface RunReport {
   drifted_count: number;
   total_prompts: number;
   drift_details: DriftDetail[];
+  mutations: MutationSuggestion[];
 }
 
 export default async function TechnicalReportPage({ params }: { params: Promise<{ id: string }> }) {
@@ -167,6 +177,56 @@ export default async function TechnicalReportPage({ params }: { params: Promise<
           </table>
         </div>
       </div>
+      
+      {/* Mutation Suggestions */}
+      {report.mutations && report.mutations.length > 0 && (
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <h2 className="text-xs font-medium tracking-widest text-[#404040] uppercase mb-3 mt-8">
+            Mutation Suggestions
+          </h2>
+          <div className="flex flex-col gap-3">
+            {report.mutations.map((m: MutationSuggestion) => (
+              <div key={m.prompt_id} className="bg-[#111111] border border-[#1c1c1c] rounded-lg p-5">
+                
+                {/* Row 1 */}
+                <div className="flex justify-between items-center mb-4 pb-3 border-b border-[#1c1c1c]">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-mono text-[#34d399]">{m.prompt_id}</span>
+                    <span className="text-xs text-[#737373] bg-[#1a1a1a] px-2 py-0.5 rounded-full">
+                      {CATEGORY_LABELS[m.category as keyof typeof CATEGORY_LABELS] || m.category}
+                    </span>
+                  </div>
+                  <span className="text-xs text-[#f59e0b] bg-[#f59e0b]/10 border border-[#f59e0b]/20 px-2 py-1 rounded">
+                    {m.drift_direction}
+                  </span>
+                </div>
+
+                {/* Row 2 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:border-r border-[#1c1c1c] md:pr-4">
+                    <div className="text-xs text-[#404040] mb-2">ORIGINAL</div>
+                    <div className="text-sm text-[#737373] leading-relaxed break-words whitespace-pre-wrap">
+                      {m.original_prompt}
+                    </div>
+                  </div>
+                  <div className="md:pl-4">
+                    <div className="text-xs text-[#34d399] mb-2">SUGGESTED REWRITE</div>
+                    <div className="text-sm text-[#f5f5f5] leading-relaxed break-words whitespace-pre-wrap">
+                      {m.suggested_rewrite}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 3 */}
+                <div className="text-xs text-[#737373] italic mt-4 border-t border-[#1c1c1c] pt-3">
+                  <span className="text-[#404040]">Reasoning: </span>{m.reasoning}
+                </div>
+
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Footer Note */}
       <div className="text-center mt-4 pb-6">

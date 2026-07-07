@@ -30,6 +30,14 @@ class ModelSummary(BaseModel):
     total_prompts: int
     categories: list[CategoryStatus]
 
+class MutationSuggestion(BaseModel):
+    prompt_id: str
+    category: str
+    original_prompt: str
+    suggested_rewrite: str
+    reasoning: str
+    drift_direction: str
+
 class RunReport(BaseModel):
     model: str
     run_timestamp: datetime
@@ -38,6 +46,7 @@ class RunReport(BaseModel):
     drifted_count: int
     total_prompts: int
     drift_details: list[DriftDetail]
+    mutations: list[MutationSuggestion]
 
 class BsiHistoryPoint(BaseModel):
     run_id: str

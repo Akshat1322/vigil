@@ -216,7 +216,51 @@ def run_with_drift_check(model: str, prompt_version: str = CURRENT_PROMPT_VERSIO
     # notify_frontend_revalidate() is now handled by GitHub Actions
     # to avoid race conditions with Render deployments.
     
-    return {"results": results, "drift_summary": drift_summary, "bsi": bsi_score}
+    # Run mutation chain if drift detected
+    from harness.mutations import suggest_mutations
+    from harness.db import save_mutation
+
+    mutations = []
+    if drift_summary.drifted_count > 0:
+        print(f"\nRunning mutation suggestions for {drift_summary.drifted_count} drifted prompts...")
+        
+        prompts = load_prompts(prompt_version)['prompts']
+        # The run_id is not directly accessible here since it's inside the result loop in run_full_suite, 
+        # but results[0].run_id has it!
+        current_run_id = results[0].run_id if results else "unknown"
+        
+        mutations = suggest_mutations(
+            drift_results=drift_summary.drift_results,
+            prompts=prompts,
+            max_suggestions=5
+        )
+        
+        # Save to database
+        for mutation in mutations:
+            save_mutation(
+                run_id=current_run_id,
+                model=model,
+                mutation=mutation
+            )
+        
+        if mutations:
+            print(f"Generated {len(mutations)} mutation suggestions")
+            
+    # Update drift report printout to show mutations
+    if mutations:
+        print("\n=== PROMPT MUTATION SUGGESTIONS ===")
+        for m in mutations:
+            print(f"\n{m.prompt_id} ({m.category}):")
+            print(f"  Issue: {m.reasoning}")
+            print(f"  Original: {m.original_prompt[:80]}...")
+            print(f"  Suggested: {m.suggested_rewrite[:80]}...")
+
+    return {
+        "results": results, 
+        "drift_summary": drift_summary, 
+        "bsi": bsi_score,
+        "mutations": mutations
+    }
 
 def notify_frontend_revalidate():
     """

@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException, Path
-from api.schemas import ModelSummary, RunReport, CategoryStatus, DriftDetail, BsiHistoryPoint
+from api.schemas import ModelSummary, RunReport, CategoryStatus, DriftDetail, BsiHistoryPoint, MutationSuggestion
 from api.db_queries import get_distinct_models, get_latest_run_results, get_all_runs_for_model
 from harness.drift.detector import detect_drift_for_run
 from harness.drift.bsi import compute_bsi
+from harness.db import get_latest_mutations
 from datetime import datetime, timedelta
 from typing import Any
 
@@ -176,6 +177,18 @@ def get_model_report(model_name: str = Path(...)):
             semantic_similarity=dr.semantic_similarity
         ))
         
+    db_mutations = get_latest_mutations(model_name)
+    mutation_suggestions = []
+    for m in db_mutations:
+        mutation_suggestions.append(MutationSuggestion(
+            prompt_id=m.prompt_id,
+            category=m.category,
+            original_prompt=m.original_prompt,
+            suggested_rewrite=m.suggested_rewrite,
+            reasoning=m.reasoning,
+            drift_direction=m.drift_direction
+        ))
+        
     report = RunReport(
         model=model_name,
         run_timestamp=timestamp,
@@ -183,7 +196,8 @@ def get_model_report(model_name: str = Path(...)):
         regression_rate=drift_summary.regression_rate,
         drifted_count=drift_summary.drifted_count,
         total_prompts=drift_summary.total_count,
-        drift_details=details
+        drift_details=details,
+        mutations=mutation_suggestions
     )
     set_cached(cache_key, report)
     return report
