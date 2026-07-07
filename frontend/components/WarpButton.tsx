@@ -50,7 +50,7 @@ export default function WarpButton({ href, children }: { href: string, children:
         this.pos = new Vector(x, y, z);
         this.vel = new Vector(0, 0, -Z_SPD);
         this.vel.scale(0.01);
-        this.fill = "rgba(255,255,255,0.3)";
+        this.fill = "rgba(52, 211, 153, 0.6)";
         this.stroke = this.fill;
       }
       update() { this.pos.add(this.vel); }
