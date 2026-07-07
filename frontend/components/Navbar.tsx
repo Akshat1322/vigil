@@ -8,6 +8,8 @@ type ModalState = 'features' | 'how-it-works' | null;
 
 export default function Navbar() {
   const [activeModal, setActiveModal] = useState<ModalState>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
   // Close modal on escape key
@@ -19,9 +21,29 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Hide on scroll down, show on scroll up
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling down and past threshold
+        setIsVisible(false);
+      } else {
+        // Scrolling up or at top
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 pt-5 px-6 flex justify-between items-center pointer-events-none">
+      <header className={`fixed top-0 left-0 w-full z-50 pt-5 px-6 flex justify-between items-center pointer-events-none transition-transform duration-300 ease-in-out ${isVisible ? 'translate-y-0' : '-translate-y-[150%]'}`}>
         
         {/* Left: Logo */}
         <div className="pointer-events-auto">
