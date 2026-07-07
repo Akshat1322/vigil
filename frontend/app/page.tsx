@@ -3,19 +3,18 @@ import WarpButton from '@/components/WarpButton';
 
 export default function Home() {
   return (
-    <div className="bg-black min-h-screen p-3 md:p-6 flex flex-col font-sans">
+    <div className="bg-[#050505] min-h-screen flex flex-col font-sans relative overflow-hidden">
       
-      {/* Massive rounded inner container */}
-      <main className="flex-grow rounded-[2rem] border border-[#1c1c1c] bg-[#050505] relative overflow-hidden flex flex-col min-h-[calc(100vh-8rem)]">
-        
-        {/* Background Fluid Aurora & Stars */}
-        <div className="orb-container bg-[#030303]">
-          <div className="stars"></div>
-          <div className="aurora-blob aurora-1"></div>
-          <div className="aurora-blob aurora-2"></div>
-          <div className="aurora-blob aurora-3"></div>
-        </div>
+      {/* Background Fluid Aurora & Stars (Now Full Screen) */}
+      <div className="orb-container absolute inset-0 pointer-events-none z-0">
+        <div className="stars"></div>
+        <div className="aurora-blob aurora-1"></div>
+        <div className="aurora-blob aurora-2"></div>
+        <div className="aurora-blob aurora-3"></div>
+      </div>
 
+      <main className="flex-grow relative flex flex-col z-10 w-full h-full">
+        
         {/* Floating Animated Models (Fixed SVG Paths) */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[800px] pointer-events-none z-10 hidden md:block">
           
@@ -64,29 +63,34 @@ export default function Home() {
         </div>
 
         {/* Central Content */}
-        <section className="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 md:px-6 pt-16">
-          <div className="implode-target inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1c1c1c] bg-[#111111]/80 backdrop-blur-md mb-8">
+        <section className="relative z-20 flex-grow flex flex-col items-center justify-center text-center px-4 md:px-6 pt-24 pb-32">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#1c1c1c] bg-[#111111]/80 backdrop-blur-md mb-8">
             <div className="w-2 h-2 rounded-full bg-[#34d399] animate-pulse"></div>
             <span className="text-xs text-[#d1d5db] font-medium tracking-wide">Continuous API Drift Detection</span>
           </div>
 
-          <h1 className="implode-target text-5xl md:text-6xl lg:text-7xl font-bold text-[#f5f5f5] tracking-tight mb-6 max-w-4xl" style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)' }}>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#f5f5f5] tracking-tight mb-6 max-w-4xl" style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)' }}>
             Monitor LLM <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#ffffff] to-[#737373]">Behavioral Drift</span>
           </h1>
 
-          <p className="implode-target text-[#9ca3af] text-lg md:text-xl max-w-2xl mb-10 leading-relaxed font-light">
+          <p className="text-[#9ca3af] text-lg md:text-xl max-w-2xl mb-10 leading-relaxed font-light">
             LLM providers update their models silently. Vigil runs 100 behavioral checks weekly and alerts you the moment something shifts.
           </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-6">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-6">
              <WarpButton href="/dashboard">
                Open App <span className="text-[#737373]">↗</span>
              </WarpButton>
           </div>
         </section>
 
-        {/* Bottom UI Elements */}
-        <div className="absolute bottom-6 w-full px-6 md:px-10 flex justify-between items-end z-20 pointer-events-auto">
+      </main>
+
+      {/* Footer Layer (Integrated into the document flow at the bottom) */}
+      <footer className="relative z-20 w-full flex flex-col pointer-events-auto">
+        
+        {/* Socials & Copyright */}
+        <div className="w-full px-6 md:px-10 py-6 flex justify-between items-end border-t border-[#1c1c1c]/50 bg-gradient-to-t from-black/80 to-transparent">
           {/* Bottom Left: Vigil & Copyright */}
           <div className="flex flex-col gap-1 text-left">
              <span className="text-sm text-[#f5f5f5] font-semibold tracking-wide">Vigil</span>
@@ -107,64 +111,64 @@ export default function Home() {
           </div>
         </div>
 
-      </main>
+        {/* Marquee Ticker */}
+        <div className="w-full bg-[#050505] pt-4 pb-4 border-t border-[#1c1c1c]/50 marquee-container">
+           <div className="marquee-content opacity-50">
+              {/* Tech Stack & LLMs */}
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 rounded-sm bg-[#34d399]/20 flex items-center justify-center"><span className="text-[10px] text-[#34d399]">▲</span></div>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Vercel</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">✻</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">OpenAI</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">✤</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Anthropic</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">∞</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Meta</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">❖</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Google</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">◈</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Mistral</span>
+              </div>
 
-      {/* Marquee Ticker (Outside the rounded container) */}
-      <div className="w-full bg-black pt-8 pb-4 marquee-container mt-auto">
-         <div className="marquee-content opacity-50">
-            {/* Tech Stack & LLMs */}
-            <div className="flex items-center gap-3">
-              <div className="w-4 h-4 rounded-sm bg-[#34d399]/20 flex items-center justify-center"><span className="text-[10px] text-[#34d399]">▲</span></div>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Vercel</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">✻</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">OpenAI</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">✤</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Anthropic</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">∞</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Meta</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">❖</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Google</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">◈</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Mistral</span>
-            </div>
+              {/* Duplicates for smooth loop */}
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 rounded-sm bg-[#34d399]/20 flex items-center justify-center"><span className="text-[10px] text-[#34d399]">▲</span></div>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Vercel</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">✻</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">OpenAI</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">✤</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Anthropic</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">∞</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Meta</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">❖</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Google</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-[#737373]">◈</span>
+                <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Mistral</span>
+              </div>
+           </div>
+        </div>
+      </footer>
 
-            {/* Duplicates for smooth loop */}
-            <div className="flex items-center gap-3">
-              <div className="w-4 h-4 rounded-sm bg-[#34d399]/20 flex items-center justify-center"><span className="text-[10px] text-[#34d399]">▲</span></div>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Vercel</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">✻</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">OpenAI</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">✤</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Anthropic</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">∞</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Meta</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">❖</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Google</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-lg text-[#737373]">◈</span>
-              <span className="text-[#737373] font-bold tracking-widest text-sm uppercase">Mistral</span>
-            </div>
-         </div>
-      </div>
     </div>
   );
 }
