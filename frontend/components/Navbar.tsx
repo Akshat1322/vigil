@@ -45,14 +45,12 @@ export default function Navbar() {
             <Link href="/dashboard" className="text-xs font-medium text-[#a1a1a1] hover:text-[#f5f5f5] transition-colors">Dashboard</Link>
           )}
           <button 
-            onMouseEnter={() => setActiveModal('features')}
             onClick={() => setActiveModal(activeModal === 'features' ? null : 'features')}
             className={`text-xs font-medium transition-colors ${activeModal === 'features' ? 'text-[#34d399]' : 'text-[#a1a1a1] hover:text-[#f5f5f5]'}`}
           >
             Features
           </button>
           <button 
-            onMouseEnter={() => setActiveModal('how-it-works')}
             onClick={() => setActiveModal(activeModal === 'how-it-works' ? null : 'how-it-works')}
             className={`text-xs font-medium transition-colors ${activeModal === 'how-it-works' ? 'text-[#34d399]' : 'text-[#a1a1a1] hover:text-[#f5f5f5]'}`}
           >
